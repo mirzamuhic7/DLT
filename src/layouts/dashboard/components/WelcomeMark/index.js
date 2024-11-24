@@ -4,7 +4,7 @@ import { Card, Icon } from "@mui/material";
 import VuiBox from "components/VuiBox";
 import VuiTypography from "components/VuiTypography";
 
-import gif from "assets/images/cardimgfree.png";
+import gif from "assets/images/avatar4.png";
 
 const WelcomeMark = () => {
   return (
@@ -12,8 +12,10 @@ const WelcomeMark = () => {
       height: "340px",
       py: "32px",
       backgroundImage: `url(${gif})`,
-      backgroundSize: "cover",
-      backgroundPosition: "50%"
+      backgroundSize: "contain",
+      // backgroundPosition: "50%",
+      backgroundPositionX: "100%",
+      backgroundRepeat: "no-repeat"
     })}>
       <VuiBox height="100%" display="flex" flexDirection="column" justifyContent="space-between">
         <VuiBox>
@@ -21,7 +23,7 @@ const WelcomeMark = () => {
             Welcome back,
           </VuiTypography>
           <VuiTypography color="white" variant="h3" fontWeight="bold" mb="18px">
-            Mark Johnson
+            Marka Johncena
           </VuiTypography>
           <VuiTypography color="text" variant="h6" fontWeight="regular" mb="auto">
             Glad to see you again!

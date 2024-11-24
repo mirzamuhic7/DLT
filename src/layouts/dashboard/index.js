@@ -58,14 +58,14 @@ function Dashboard() {
 
         <VuiBox mb={3}>
           <Grid container spacing="18px">
-            <Grid item xs={12} lg={12} xl={5}>
+            <Grid item xs={12} lg={12} xl={6}>
               <WelcomeMark />
             </Grid>
             <Grid item xl={3}>
                 <VuiBox mb={0}>
                   <Grid direction={"column"}>
                   <Grid item xs={12} md={6} xl={3}>
-                    <VuiBox mb={4}><MiniStatisticsCard
+                    <VuiBox my={2}><MiniStatisticsCard
                       title={{ text: "today's users" }}
                       count="2,300"
                       percentage={{ color: "success", text: "+3%" }}
@@ -73,7 +73,7 @@ function Dashboard() {
                     /></VuiBox>
                   </Grid>
                   <Grid item xs={12} md={6} xl={3}>
-                    <VuiBox mb={4}><MiniStatisticsCard
+                    <VuiBox my={2}><MiniStatisticsCard
                       title={{ text: "new clients" }}
                       count="+3,462"
                       percentage={{ color: "error", text: "-2%" }}
@@ -81,7 +81,7 @@ function Dashboard() {
                     /></VuiBox>
                   </Grid>
                   <Grid item xs={12} md={6} xl={3}>
-                    <VuiBox mb={4}><MiniStatisticsCard
+                    <VuiBox my={2}><MiniStatisticsCard
                       title={{ text: "total sales" }}
                       count="$103,430"
                       percentage={{ color: "success", text: "+5%" }}
@@ -91,7 +91,7 @@ function Dashboard() {
                 </Grid>
                 </VuiBox>
             </Grid>
-            <Grid item xs={12} lg={6} xl={4}>
+            <Grid item xs={12} lg={6} xl={3}>
               <SatisfactionRate />
             </Grid>
           </Grid>
