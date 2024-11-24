@@ -36,7 +36,6 @@ import VuiBox from "components/VuiBox";
 import VuiTypography from "components/VuiTypography";
 import ProfileInfoCard from "examples/Cards/InfoCards/ProfileInfoCard";
 import DefaultProjectCard from "examples/Cards/ProjectCards/DefaultProjectCard";
-import Footer from "examples/Footer";
 // Vision UI Dashboard React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 // Overview page components
@@ -208,8 +207,6 @@ function Overview() {
           </Card>
         </Grid>
       </Grid>
-
-      <Footer />
     </DashboardLayout>
   );
 }

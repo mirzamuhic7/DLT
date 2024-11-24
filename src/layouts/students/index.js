@@ -27,16 +27,15 @@ import MasterCard from "examples/Cards/MasterCard";
 // Vision UI Dashboard React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import Footer from "examples/Footer";
 
-// Billing page components
-import PaymentMethod from "layouts/billing/components/PaymentMethod";
-import Invoices from "layouts/billing/components/Invoices";
-import BillingInformation from "layouts/billing/components/BillingInformation";
-import Transactions from "layouts/billing/components/Transactions";
+// Students page components
+import PaymentMethod from "./components/PaymentMethod";
+import Invoices from "./components/Invoices";
+import BillingInformation from "./components/BillingInformation";
+import Transactions from "./components/Transactions";
 import CreditBalance from "./components/CreditBalance";
 
-function Billing() {
+function Students() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -72,9 +71,8 @@ function Billing() {
           </Grid>
         </VuiBox>
       </VuiBox>
-      <Footer />
     </DashboardLayout>
   );
 }
 
-export default Billing;
+export default Students;
