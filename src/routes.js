@@ -41,7 +41,7 @@
 // Vision UI Dashboard React layouts
 import Dashboard from "layouts/dashboard";
 import Courses from "layouts/courses";
-import Billing from "layouts/students";
+import Students from "layouts/students";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
@@ -79,7 +79,7 @@ const routes = [
     key: "students",
     route: "/students",
     icon: <PiStudentFill size="15px" color="inherit" />,
-    component: Billing,
+    component: Students,
     noCollapse: true,
   },
   { type: "title", title: "Account Pages", key: "account-pages" },

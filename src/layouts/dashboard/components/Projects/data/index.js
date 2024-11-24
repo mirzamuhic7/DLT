@@ -8,12 +8,6 @@ import VuiAvatar from "components/VuiAvatar";
 import VuiProgress from "components/VuiProgress";
 
 // Images
-import AdobeXD from "examples/Icons/AdobeXD";
-import Atlassian from "examples/Icons/Atlassian";
-import Slack from "examples/Icons/Slack";
-import Spotify from "examples/Icons/Spotify";
-import Jira from "examples/Icons/Jira";
-import Invision from "examples/Icons/Invision";
 import avatar1 from "assets/images/avatar1.png";
 import avatar2 from "assets/images/avatar2.png";
 import avatar3 from "assets/images/avatar3.png";
@@ -57,7 +51,6 @@ export default function data() {
       {
         companies: (
           <VuiBox display="flex" alignItems="center">
-            <AdobeXD size="20px" />
             <VuiTypography pl="16px" color="white" variant="button" fontWeight="medium">
               Chakra Vision UI Version
             </VuiTypography>
@@ -90,7 +83,6 @@ export default function data() {
       {
         companies: (
           <VuiBox display="flex" alignItems="center">
-            <Atlassian size="20px" />
             <VuiTypography pl="16px" color="white" variant="button" fontWeight="medium">
               Add Progress Track
             </VuiTypography>
@@ -121,7 +113,6 @@ export default function data() {
       {
         companies: (
           <VuiBox display="flex" alignItems="center">
-            <Slack size="20px" />
             <VuiTypography pl="16px" color="white" variant="button" fontWeight="medium">
               Fix Platform Errors
             </VuiTypography>
@@ -152,7 +143,6 @@ export default function data() {
       {
         companies: (
           <VuiBox display="flex" alignItems="center">
-            <Spotify size="20px" />
             <VuiTypography pl="16px" color="white" variant="button" fontWeight="medium">
               Launch our Mobile App
             </VuiTypography>
@@ -185,7 +175,6 @@ export default function data() {
       {
         companies: (
           <VuiBox display="flex" alignItems="center">
-            <Jira size="20px" />
             <VuiTypography pl="16px" color="white" variant="button" fontWeight="medium">
               Add the New Pricing Page
             </VuiTypography>
@@ -213,7 +202,6 @@ export default function data() {
       {
         companies: (
           <VuiBox display="flex" alignItems="center">
-            <Invision size="20px" />
             <VuiTypography pl="16px" color="white" variant="button" fontWeight="medium">
               Redesign New Online Shop
             </VuiTypography>

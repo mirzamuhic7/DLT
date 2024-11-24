@@ -29,8 +29,6 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import MiniStatisticsCard from "examples/Cards/StatisticsCards/MiniStatisticsCard";
 
-// Vision UI Dashboard React base styles
-import colors from "assets/theme/base/colors";
 
 // Dashboard layout components
 import WelcomeMark from "layouts/dashboard/components/WelcomeMark";
