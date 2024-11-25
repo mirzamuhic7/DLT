@@ -16,9 +16,6 @@
 
 */
 
-// prop-types is a library for typechecking of props
-import PropTypes from "prop-types";
-
 // @mui material components
 import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
@@ -29,7 +26,21 @@ import VuiBox from "components/VuiBox";
 import VuiTypography from "components/VuiTypography";
 import colors from "assets/theme/base/colors";
 
-function MiniStatisticsCard({ bgColor, title, count, percentage, icon, direction }) {
+function MiniStatisticsCard({
+                              bgColor = "white",
+                              title = {
+                                fontWeight: "medium",
+                                text: "",
+                              },
+                              count,
+                              percentage = {
+                                color: "success",
+                                text: "",
+                              },
+                              icon,
+                              direction = "right",
+                            }) {
+
   const { info } = colors;
 
   return (
