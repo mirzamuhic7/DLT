@@ -5,20 +5,22 @@ import VuiBox from "components/VuiBox";
 import VuiTypography from "components/VuiTypography";
 
 import gif from "assets/images/avatar4.png";
+import colors from "../../../../assets/theme/base/colors";
+import Box from "@mui/material/Box";
 
 const WelcomeMark = () => {
+  const { black, gradients } = colors;
+  const { card } = gradients;
+
   return (
     <Card sx={() => ({
       height: "340px",
       py: "32px",
-      backgroundImage: `url(${gif})`,
-      backgroundSize: "contain",
-      // backgroundPosition: "50%",
-      backgroundPositionX: "100%",
-      backgroundRepeat: "no-repeat"
+      position: "relative",
+      background: `rgba(6, 11, 40, 1.0) !important`,
     })}>
       <VuiBox height="100%" display="flex" flexDirection="column" justifyContent="space-between">
-        <VuiBox>
+        <VuiBox sx={{ zIndex: "1" }}>
           <VuiTypography color="text" variant="button" fontWeight="regular" mb="12px">
             Welcome back,
           </VuiTypography>
@@ -56,6 +58,41 @@ const WelcomeMark = () => {
           Tap to record
           <Icon sx={{ fontWeight: "bold", ml: "5px" }}>arrow_forward</Icon>
         </VuiTypography>
+      </VuiBox>
+      <VuiBox
+        sx={{
+          position: "absolute",
+          right: 0,
+          top: 0,
+          width: "60%",
+          height: "100%",
+          overflow: "hidden",
+        }}
+      >
+        <img
+          src={gif}
+          alt="animated gif"
+          style={{
+            backgroundSize: "cover",
+            width: "100%",
+            height: "100%",
+            position: "relative",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat"
+          }}
+        />
+        <Box
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            background: `linear-gradient(to right, rgba(6, 11, 40, 1.0) , rgba(14, 16, 55, 0) 100%)`,
+            pointerEvents: "none",
+          }}
+        >
+        </Box>
       </VuiBox>
     </Card>
   );
