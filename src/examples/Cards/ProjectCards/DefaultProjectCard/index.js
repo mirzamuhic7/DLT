@@ -20,7 +20,6 @@
 import { Link } from "react-router-dom";
 
 // prop-types is a library for typechecking of props
-import PropTypes from "prop-types";
 
 // @mui material components
 import Tooltip from "@mui/material/Tooltip";
@@ -146,34 +145,5 @@ function DefaultProjectCard({ image, label, title, description, action, authors 
   );
 }
 
-// Setting default values for the props of DefaultProjectCard
-DefaultProjectCard.defaultProps = {
-  authors: [],
-};
-
-// Typechecking props for the DefaultProjectCard
-DefaultProjectCard.propTypes = {
-  image: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  action: PropTypes.shape({
-    type: PropTypes.oneOf(["external", "internal"]),
-    route: PropTypes.string.isRequired,
-    color: PropTypes.oneOf([
-      "white",
-      "text",
-      "info",
-      "success",
-      "warning",
-      "error",
-      "light",
-      "dark",
-      "white",
-    ]).isRequired,
-    label: PropTypes.string.isRequired,
-  }).isRequired,
-  authors: PropTypes.arrayOf(PropTypes.object),
-};
 
 export default DefaultProjectCard;

@@ -94,10 +94,6 @@ function useVisionUIController() {
   return context;
 }
 
-// Typechecking props for the VisionUIControllerProvider
-VisionUIControllerProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-};
 
 // Context module functions
 const setMiniSidenav = (dispatch, value) => dispatch({ type: "MINI_SIDENAV", value });

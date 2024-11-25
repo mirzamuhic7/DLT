@@ -57,7 +57,7 @@ import { PiStudentFill } from "react-icons/pi";
 const routes = [
   {
     type: "collapse",
-    name: "Dashboard",
+    name: "Tableau de bord",
     key: "dashboard",
     route: "/dashboard",
     icon: <IoHome size="15px" color="inherit" />,
@@ -93,8 +93,8 @@ const routes = [
     noCollapse: true,
   },
   {
-    type: "title",
-    name: "Sign In",
+    type: "route",
+    name: "Se connecter",
     key: "sign-in",
     route: "/authentication/sign-in",
     icon: <IoIosDocument size="15px" color="inherit" />,
@@ -102,8 +102,8 @@ const routes = [
     noCollapse: true,
   },
   {
-    type: "title",
-    name: "Sign Up",
+    type: "route",
+    name: "S'inscrire",
     key: "sign-up",
     route: "/authentication/sign-up",
     icon: <IoRocketSharp size="15px" color="inherit" />,

@@ -134,6 +134,8 @@ function Sidenav({ color, brandName, routes, ...rest }) {
       );
     } else if (type === "divider") {
       returnValue = <Divider light key={key} />;
+    } else if (type === "route") {
+      return "";
     }
 
     return returnValue;
@@ -201,18 +203,6 @@ function Sidenav({ color, brandName, routes, ...rest }) {
   );
 }
 
-// Setting default values for the props of Sidenav
-Sidenav.defaultProps = {
-  color: "info",
-  // brand: "",
-};
 
-// Typechecking props for the Sidenav
-Sidenav.propTypes = {
-  color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "dark"]),
-  // brand: PropTypes.string,
-  brandName: PropTypes.string.isRequired,
-  routes: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
 
 export default Sidenav;

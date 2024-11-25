@@ -47,7 +47,7 @@ import CarInformations from "./components/CarInformations";
 function Overview() {
   return (
     <DashboardLayout>
-      <Header />
+      <Header pageName={"Profile"} />
       <VuiBox mt={5} mb={3}>
         <Grid
           container

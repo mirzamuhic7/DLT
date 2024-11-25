@@ -38,7 +38,7 @@ function Courses() {
 
   return (
     <DashboardLayout>
-      <DashboardNavbar />
+      <DashboardNavbar pageName={"Mes Cours"} />
       <VuiBox py={3}>
         <VuiBox mb={3}>
           <Card>
@@ -68,7 +68,7 @@ function Courses() {
         <Card>
           <VuiBox display="flex" justifyContent="space-between" alignItems="center">
             <VuiTypography variant="lg" color="white">
-              Projects table
+              Mes Cours
             </VuiTypography>
           </VuiBox>
           <VuiBox

@@ -37,7 +37,7 @@ import OrderOverview from "layouts/dashboard/components/OrderOverview";
 import SatisfactionRate from "layouts/dashboard/components/SatisfactionRate";
 
 // React icons
-import { IoDocumentText, IoGlobe, IoWallet } from "react-icons/io5";
+import { IoDocumentText, IoGlobe } from "react-icons/io5";
 import { FaShoppingCart } from "react-icons/fa";
 
 // Data
@@ -49,21 +49,21 @@ import { useVisionUIController } from "../../context";
 
 function Dashboard() {
 
-  const [context , dispatch] = useVisionUIController();
+  const [context, dispatch] = useVisionUIController();
 
   return (
     <DashboardLayout>
-      <DashboardNavbar />
+      <DashboardNavbar pageName={"Tableau de bord"} />
       <VuiBox py={3}>
 
         <VuiBox mb={3}>
           <Grid container spacing="18px">
-            <Grid item xs={12} lg={12} xl={6}>
+            <Grid item xs={12} md={6} lg={6} xl={5}>
               <WelcomeMark />
             </Grid>
-            <Grid item xl={3}>
-                <VuiBox mb={0}>
-                  <Grid direction={"column"}>
+            <Grid item xs={12} md={6} lg={3} xl={4}>
+              <VuiBox mb={0}>
+                <Grid direction={"column"}>
                   <Grid item xs={12} md={6} xl={3}>
                     <VuiBox my={2}><MiniStatisticsCard
                       title={{ text: "today's users" }}
@@ -89,9 +89,9 @@ function Dashboard() {
                     /></VuiBox>
                   </Grid>
                 </Grid>
-                </VuiBox>
+              </VuiBox>
             </Grid>
-            <Grid item xs={12} lg={6} xl={3}>
+            <Grid item xs={12} lg={3} xl={3}>
               <SatisfactionRate />
             </Grid>
           </Grid>

@@ -30,21 +30,19 @@ import Table from "examples/Tables/Table";
 import studentsTableData from "./data/studentsTableData";
 
 
-
-
 function Students() {
 
   const { columns, rows } = studentsTableData;
 
   return (
     <DashboardLayout>
-      <DashboardNavbar />
-      <VuiBox  py={3}>
+      <DashboardNavbar pageName={"Les étudiants"} />
+      <VuiBox py={3}>
         <VuiBox mb={3}>
           <Card>
             <VuiBox display="flex" justifyContent="space-between" alignItems="center" mb="22px">
               <VuiTypography variant="lg" color="white">
-                Authors table
+                Les étudiants
               </VuiTypography>
             </VuiBox>
             <VuiBox
