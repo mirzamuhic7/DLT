@@ -16,9 +16,6 @@
 
 */
 
-// prop-types is a library for typechecking of props
-import PropTypes from "prop-types";
-
 // @mui material components
 import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
@@ -29,7 +26,21 @@ import VuiBox from "components/VuiBox";
 import VuiTypography from "components/VuiTypography";
 import colors from "assets/theme/base/colors";
 
-function MiniStatisticsCard({ bgColor, title, count, percentage, icon, direction }) {
+function MiniStatisticsCard({
+                              bgColor = "white",
+                              title = {
+                                fontWeight: "medium",
+                                text: "",
+                              },
+                              count,
+                              percentage = {
+                                color: "success",
+                                text: "",
+                              },
+                              icon,
+                              direction = "right",
+                            }) {
+
   const { info } = colors;
 
   return (
@@ -99,56 +110,5 @@ function MiniStatisticsCard({ bgColor, title, count, percentage, icon, direction
     </Card>
   );
 }
-
-// Setting default values for the props of MiniStatisticsCard
-MiniStatisticsCard.defaultProps = {
-  bgColor: "white",
-  title: {
-    fontWeight: "medium",
-    text: "",
-  },
-  percentage: {
-    color: "success",
-    text: "",
-  },
-  direction: "right",
-};
-
-// Typechecking props for the MiniStatisticsCard
-MiniStatisticsCard.propTypes = {
-  bgColor: PropTypes.oneOf([
-    "white",
-    "primary",
-    "secondary",
-    "info",
-    "success",
-    "warning",
-    "error",
-    "dark",
-  ]),
-  title: PropTypes.PropTypes.shape({
-    fontWeight: PropTypes.oneOf(["light", "regular", "medium", "bold"]),
-    text: PropTypes.string,
-  }),
-  count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  percentage: PropTypes.shape({
-    color: PropTypes.oneOf([
-      "primary",
-      "secondary",
-      "info",
-      "success",
-      "warning",
-      "error",
-      "dark",
-      "white",
-    ]),
-    text: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  }),
-  icon: PropTypes.shape({
-    color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "dark"]),
-    component: PropTypes.node.isRequired,
-  }).isRequired,
-  direction: PropTypes.oneOf(["right", "left"]),
-};
 
 export default MiniStatisticsCard;

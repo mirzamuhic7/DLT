@@ -30,8 +30,6 @@ import VuiTypography from "components/VuiTypography";
 import DefaultNavbar from "examples/Navbars/DefaultNavbar";
 import PageLayout from "examples/LayoutContainers/PageLayout";
 
-// Authentication layout components
-import Footer from "layouts/authentication/components/Footer";
 
 function BasicLayout({ title, description, image, children }) {
   return (
@@ -87,7 +85,6 @@ function BasicLayout({ title, description, image, children }) {
           </Grid>
         </Grid>
       </VuiBox>
-      <Footer />
     </PageLayout>
   );
 }

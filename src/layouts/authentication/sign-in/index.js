@@ -39,19 +39,22 @@ import CoverLayout from "layouts/authentication/components/CoverLayout";
 
 // Images
 import bgSignIn from "assets/images/signInImage.png";
+import { useVisionUIController } from "../../../context";
 
 function SignIn() {
   const [rememberMe, setRememberMe] = useState(true);
 
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
 
+  const [context, dispatch] = useVisionUIController();
+
   return (
     <CoverLayout
       title="Nice to see you!"
       color="white"
       description="Enter your email and password to sign in"
-      premotto="INSPIRED BY THE FUTURE:"
-      motto="THE VISION UI DASHBOARD"
+      premotto="PRIME BETA SCHOOL"
+      motto={context.direction === "rtl" ? "منصة المعلمين" : "PLATFORME POUR ENSEIGNANTS"}
       image={bgSignIn}
     >
       <VuiBox component="form" role="form">
@@ -68,7 +71,7 @@ function SignIn() {
             backgroundImage={radialGradient(
               palette.gradients.borderLight.main,
               palette.gradients.borderLight.state,
-              palette.gradients.borderLight.angle
+              palette.gradients.borderLight.angle,
             )}
           >
             <VuiInput type="email" placeholder="Your email..." fontWeight="500" />
@@ -87,7 +90,7 @@ function SignIn() {
             backgroundImage={radialGradient(
               palette.gradients.borderLight.main,
               palette.gradients.borderLight.state,
-              palette.gradients.borderLight.angle
+              palette.gradients.borderLight.angle,
             )}
           >
             <VuiInput

@@ -152,16 +152,5 @@ function Table({ columns, rows }) {
   );
 }
 
-// Setting default values for the props of Table
-Table.defaultProps = {
-  columns: [],
-  rows: [{}],
-};
-
-// Typechecking props for the Table
-Table.propTypes = {
-  columns: PropTypes.arrayOf(PropTypes.object),
-  rows: PropTypes.arrayOf(PropTypes.object),
-};
 
 export default Table;

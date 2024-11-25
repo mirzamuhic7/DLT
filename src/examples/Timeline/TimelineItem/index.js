@@ -17,10 +17,8 @@
 */
 
 // prop-types is a library for typechecking of props
-import PropTypes from "prop-types";
 
 // @mui material components
-import Icon from "@mui/material/Icon";
 
 // Vision UI Dashboard React components
 import VuiBox from "components/VuiBox";
@@ -37,16 +35,16 @@ function TimelineItem({ color, icon, title, dateTime, description, badges, lastI
   const isDark = useTimeline();
 
   const renderBadges =
-    badges.length > 0
+    badges?.length > 0
       ? badges.map((badge, key) => {
-          const badgeKey = `badge-${key}`;
+        const badgeKey = `badge-${key}`;
 
-          return (
-            <VuiBox key={badgeKey} mr={key === badges.length - 1 ? 0 : 0.5}>
-              <VuiBadge color={color} size="xs" badgeContent={badge} container />
-            </VuiBox>
-          );
-        })
+        return (
+          <VuiBox key={badgeKey} mr={key === badges?.length - 1 ? 0 : 0.5}>
+            <VuiBadge color={color} size="xs" badgeContent={badge} container />
+          </VuiBox>
+        );
+      })
       : null;
 
   return (
@@ -78,7 +76,7 @@ function TimelineItem({ color, icon, title, dateTime, description, badges, lastI
             </VuiTypography>
           ) : null}
         </VuiBox>
-        {badges.length > 0 ? (
+        {badges?.length > 0 ? (
           <VuiBox display="flex" pb={lastItem ? 1 : 2}>
             {renderBadges}
           </VuiBox>
@@ -88,32 +86,5 @@ function TimelineItem({ color, icon, title, dateTime, description, badges, lastI
   );
 }
 
-// Setting default values for the props of TimelineItem
-TimelineItem.defaultProps = {
-  color: "info",
-  badges: [],
-  lastItem: false,
-  description: "",
-};
-
-// Typechecking props for the TimelineItem
-TimelineItem.propTypes = {
-  color: PropTypes.oneOf([
-    "primary",
-    "secondary",
-    "info",
-    "success",
-    "warning",
-    "error",
-    "dark",
-    "light",
-  ]),
-  icon: PropTypes.node.isRequired,
-  title: PropTypes.string.isRequired,
-  dateTime: PropTypes.string.isRequired,
-  description: PropTypes.string,
-  badges: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
-  lastItem: PropTypes.bool,
-};
 
 export default TimelineItem;

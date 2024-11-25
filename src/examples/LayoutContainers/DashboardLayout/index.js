@@ -22,13 +22,12 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 // prop-types is a library for typechecking of props.
-import PropTypes from "prop-types";
 
 // Vision UI Dashboard React components
 import VuiBox from "components/VuiBox";
 
 // Vision UI Dashboard React context
-import { useVisionUIController, setLayout } from "context";
+import { setLayout, useVisionUIController } from "context";
 
 function DashboardLayout({ children }) {
   const [controller, dispatch] = useVisionUIController();
@@ -44,7 +43,7 @@ function DashboardLayout({ children }) {
       sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
         p: 3,
         position: "relative",
-
+        minHeight: "100vh",
         [breakpoints.up("xl")]: {
           marginLeft: miniSidenav ? pxToRem(120) : pxToRem(274),
           transition: transitions.create(["margin-left", "margin-right"], {
@@ -59,9 +58,5 @@ function DashboardLayout({ children }) {
   );
 }
 
-// Typechecking props for the DashboardLayout
-DashboardLayout.propTypes = {
-  children: PropTypes.node.isRequired,
-};
 
 export default DashboardLayout;
