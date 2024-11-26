@@ -5,7 +5,7 @@ const VuiStepperRoot = styled(Stepper)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  width: "100%",
+  width: "90%",
   padding: "0px 20px", // Add spacing
   position: "relative",
   margin: "20px 0px 30px 0",

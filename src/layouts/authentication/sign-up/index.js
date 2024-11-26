@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form"; // Import React Hook Form
 import CoverLayout from "layouts/authentication/components/CoverLayout";
 import bgSignIn from "assets/images/signUpImage.png";
 import VuiBox from "../../../components/VuiBox";
@@ -7,67 +8,67 @@ import VuiButton from "../../../components/VuiButton";
 import VuiStepper from "../../../components/VuiStepper";
 import VuiTypography from "../../../components/VuiTypography";
 import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton"; // For the toggle icon
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Link } from "react-router-dom";
 
 function SignUpStepper() {
   const steps = ["Personal Details", "Professional Details", "Upload Photo"];
   const [activeStep, setActiveStep] = useState(0);
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    subject: "",
-    school: "",
-    photo: null,
+  const [avatarPreview, setAvatarPreview] = useState(null); // State to store the avatar preview
+  const [showPassword, setShowPassword] = useState(false); // Toggle for password visibility
+
+  const { register, handleSubmit , getValues, formState: { errors }, setValue, trigger } = useForm({
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      subject: "",
+      school: "",
+      photo: null,
+      password: "",
+    },
   });
 
-  const [errors, setErrors] = useState({});
-  const [avatarPreview, setAvatarPreview] = useState(null); // State to store the avatar preview
-
-  const validateStep = () => {
-    const currentErrors = {};
-    if (activeStep === 0) {
-      if (!formData.firstName.trim()) currentErrors.firstName = "First name is required.";
-      if (!formData.lastName.trim()) currentErrors.lastName = "Last name is required.";
-    } else if (activeStep === 1) {
-      if (!formData.email.trim()) currentErrors.email = "Email is required.";
-      if (!formData.phone.trim()) currentErrors.phone = "Phone number is required.";
-    } else if (activeStep === 2) {
-      if (!formData.subject.trim()) currentErrors.subject = "Subject is required.";
-      if (!formData.school.trim()) currentErrors.school = "School is required.";
-      if (!formData.photo) currentErrors.photo = "Avatar is required.";
+  const validateStep = async () => {
+    let fieldsToValidate = [];
+    switch (activeStep) {
+      case 0:
+        fieldsToValidate = ["firstName", "lastName", "email", "password"];
+        break;
+      case 1:
+        fieldsToValidate = ["subject", "school"];
+        break;
+      case 2:
+        fieldsToValidate = ["photo"];
+        break;
+      default:
+        break;
     }
-    setErrors(currentErrors);
-    return Object.keys(currentErrors).length === 0;
+    return await trigger(fieldsToValidate);
   };
 
-  const handleNext = () => {
-    if (validateStep()) {
+  const handleNext = async () => {
+    const isStepValid = await validateStep();
+    if (isStepValid) {
       setActiveStep((prev) => prev + 1);
     }
   };
 
   const handleBack = () => {
-    setActiveStep((prev) => prev - 1);
+    if (activeStep > 0) setActiveStep((prev) => prev - 1);
   };
 
-  const handleChange = (field, value) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-    setErrors((prev) => ({ ...prev, [field]: "" }));
+  const onSubmit = (data) => {
   };
 
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setFormData((prev) => ({ ...prev, photo: file }));
-      setAvatarPreview(URL.createObjectURL(file)); // Preview the selected avatar
-    }
-  };
-
-  const handleSubmit = () => {
-    if (validateStep()) {
-      console.log("Form Submitted:", formData);
+      setValue("photo", file); // Update photo in React Hook Form
+      setAvatarPreview(URL.createObjectURL(file));
     }
   };
 
@@ -76,89 +77,104 @@ function SignUpStepper() {
       case 0:
         return (
           <VuiBox sx={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <VuiTypography sx={{ fontSize: "0.7rem", margin: "10px 0" }}>First Name</VuiTypography>
+            <VuiTypography sx={{ margin: "10px 0" }} component="label" variant="button" color="white" fontWeight="medium">
+              Prénom
+            </VuiTypography>
             <VuiInput
-              fullWidth
-              label="First Name"
-              variant="outlined"
-              value={formData.firstName}
-              onChange={(e) => handleChange("firstName", e.target.value)}
+              {...register("firstName", { required: "Le prénom est obligatoire." })}
+              placeholder="Votre prénom..."
               error={!!errors.firstName}
             />
-
-            <VuiTypography sx={{ fontSize: "0.7rem", margin: "10px 0" }}>Last Name</VuiTypography>
+            {errors.firstName && <VuiTypography sx={{ color: "red", fontSize: "0.7rem" }}>{errors.firstName.message}</VuiTypography>}
+            <VuiTypography sx={{ margin: "10px 0" }} component="label" variant="button" color="white" fontWeight="medium">
+              Nom de famille
+            </VuiTypography>
             <VuiInput
-              fullWidth
-              label="Last Name"
-              variant="outlined"
-              value={formData.lastName}
-              onChange={(e) => handleChange("lastName", e.target.value)}
+              {...register("lastName", { required: "Le nom de famille est obligatoire." })}
+              placeholder="Votre nom..."
               error={!!errors.lastName}
             />
-            <VuiTypography sx={{ fontSize: "0.7rem", margin: "10px 0" }}>Email</VuiTypography>
+            {errors.lastName &&
+              <VuiTypography sx={{ color: "red", fontSize: "0.7rem" }}>{errors.lastName.message}</VuiTypography>}
+            <VuiTypography sx={{ margin: "10px 0" }} component="label" variant="button" color="white" fontWeight="medium">
+              Email
+            </VuiTypography>
             <VuiInput
-              fullWidth
-              label="Email"
-              variant="outlined"
-              value={formData.email}
-              onChange={(e) => handleChange("email", e.target.value)}
+              {...register("email", {
+                required: "L'adresse électronique est obligatoire.",
+                pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Enter a valid email address." },
+              })}
+              placeholder="Votre email..."
+              type="email"
               error={!!errors.email}
             />
-            <VuiTypography sx={{ fontSize: "0.7rem", margin: "10px 0" }}>Phone Number</VuiTypography>
+            {errors.email &&
+              <VuiTypography sx={{ color: "red", fontSize: "0.7rem" }}>{errors.email.message}</VuiTypography>
+            }
+            <VuiTypography sx={{ margin: "10px 0" }} component="label" variant="button" color="white" fontWeight="medium">
+              Password
+            </VuiTypography>
             <VuiInput
-              fullWidth
-              label="Phone Number"
-              variant="outlined"
-              value={formData.phone}
-              onChange={(e) => handleChange("phone", e.target.value)}
-              error={!!errors.phone}
+              {...register("password", {
+                required: "Le mot de passe est requis.",
+                minLength: { value: 6, message: "Password must be at least 6 characters." },
+              })}
+              placeholder="Votre password..."
+              type={showPassword ? "text" : "password"}
+              error={!!errors.password}
+              endAdornment={
+                <IconButton sx={{ position: "absolute", right: 10 }} onClick={() => setShowPassword(!showPassword)}>
+                  {showPassword ? <VisibilityOff color="white" /> : <Visibility color="white" />}
+                </IconButton>
+              }
             />
+            {errors.password &&
+              <VuiTypography sx={{ color: "red", fontSize: "0.7rem" }}>{errors.password.message}</VuiTypography>
+            }
           </VuiBox>
         );
       case 1:
         return (
           <VuiBox sx={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <VuiTypography sx={{ fontSize: "0.7rem", margin: "10px 0" }}>Subject</VuiTypography>
+            <VuiTypography sx={{ margin: "10px 0" }} component="label" variant="button" color="white" fontWeight="medium">
+              Subject
+            </VuiTypography>
             <VuiInput
-              fullWidth
-              label="Subject"
-              variant="outlined"
-              value={formData.subject}
-              onChange={(e) => handleChange("subject", e.target.value)}
+              {...register("subject", { required: "Subject is required." })}
+              placeholder="Your subject..."
               error={!!errors.subject}
             />
-            <VuiTypography sx={{ fontSize: "0.7rem", margin: "10px 0" }}>School</VuiTypography>
+            {errors.subject &&
+              <VuiTypography sx={{ color: "red", fontSize: "0.7rem" }}>{errors.subject.message}</VuiTypography>}
+
+            <VuiTypography sx={{ margin: "10px 0" }} component="label" variant="button" color="white" fontWeight="medium">
+              School
+            </VuiTypography>
             <VuiInput
-              fullWidth
-              label="School"
-              variant="outlined"
-              value={formData.school}
-              onChange={(e) => handleChange("school", e.target.value)}
+              {...register("school", { required: "School is required." })}
+              placeholder="Your school..."
               error={!!errors.school}
             />
+            {errors.school &&
+              <VuiTypography sx={{ color: "red", fontSize: "0.7rem" }}>{errors.school.message}</VuiTypography>}
           </VuiBox>
         );
       case 2:
         return (
           <VuiBox sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-            <VuiTypography sx={{ fontSize: "0.7rem", margin: "10px 0" }}>Upload Avatar</VuiTypography>
+            <VuiTypography sx={{ margin: "10px 0" }} component="label" variant="button" color="white" fontWeight="medium">
+              Upload Avatar
+            </VuiTypography>
 
-            {/* Avatar Preview */}
             {avatarPreview ? (
               <Avatar sx={{ width: 100, height: 100, marginBottom: "1em" }} src={avatarPreview} />
             ) : (
               <Avatar sx={{ width: 100, height: 100, marginBottom: "1em" }} />
             )}
 
-            {/* Avatar File Input */}
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleAvatarChange}
-              style={{ marginBottom: "1em" }}
-            />
-
-            {errors.photo && <VuiTypography sx={{ color: "red", fontSize: "0.7rem" }}>{errors.photo}</VuiTypography>}
+            <input type="file" accept="image/*" onChange={handleAvatarChange} style={{ marginBottom: "1em" }} />
+            {errors.photo &&
+              <VuiTypography sx={{ color: "red", fontSize: "0.7rem" }}>{errors.photo.message}</VuiTypography>}
           </VuiBox>
         );
       default:
@@ -179,16 +195,11 @@ function SignUpStepper() {
         <VuiStepper activeStep={activeStep} steps={steps} />
         <VuiBox>{renderStepContent()}</VuiBox>
         <VuiBox display="flex" justifyContent="space-between" sx={{ marginTop: "2rem" }}>
-          <VuiButton
-            variant="contained"
-            color="secondary"
-            disabled={activeStep === 0}
-            onClick={handleBack}
-          >
+          <VuiButton variant="contained" color="secondary" disabled={activeStep === 0} onClick={handleBack}>
             Back
           </VuiButton>
           {activeStep === steps.length - 1 ? (
-            <VuiButton variant="contained" color="success" onClick={handleSubmit}>
+            <VuiButton variant="contained" color="success" onClick={handleSubmit(onSubmit)} type="submit">
               Submit
             </VuiButton>
           ) : (
@@ -199,7 +210,7 @@ function SignUpStepper() {
         </VuiBox>
         <VuiBox mt={3} textAlign="center">
           <VuiTypography variant="button" color="text" fontWeight="regular">
-            You have an account?{" "}
+            You have an account?
             <VuiTypography
               component={Link}
               to="/authentication/sign-in"
@@ -207,7 +218,7 @@ function SignUpStepper() {
               color="white"
               fontWeight="medium"
             >
-              Sign In
+              Sign in
             </VuiTypography>
           </VuiTypography>
         </VuiBox>
