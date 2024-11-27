@@ -17,14 +17,13 @@
 */
 
 /**
-  This file is used for controlling the global states of the components,
-  you can customize the states for the different components here.
-*/
+ This file is used for controlling the global states of the components,
+ you can customize the states for the different components here.
+ */
 
 import { createContext, useContext, useReducer } from "react";
 
 // prop-types is a library for typechecking of props
-import PropTypes from "prop-types";
 
 // The Vision UI Dashboard  Material main context
 const VisionUI = createContext();
@@ -59,6 +58,17 @@ function reducer(state, action) {
     case "LAYOUT": {
       return { ...state, layout: action.value };
     }
+    case "SHOW_SNACKBAR": {
+      return {
+        ...state,
+        snackBarOpen: true,
+        snackBarMessage: action.payload.message,
+        snackBarSeverity: action.payload.severity || "info", // Optional severity level (e.g., success, error)
+      };
+    }
+    case "HIDE_SNACKBAR": {
+      return { ...state, snackBarOpen: false, snackBarMessage: "", snackBarSeverity: "info" };
+    }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }
@@ -76,6 +86,9 @@ function VisionUIControllerProvider({ children }) {
     openConfigurator: false,
     direction: "ltr",
     layout: "dashboard",
+    snackBarOpen: false,
+    snackBarMessage: "",
+    snackBarSeverity: "info",
   };
 
   const [controller, dispatch] = useReducer(reducer, initialState);
@@ -104,6 +117,13 @@ const setFixedNavbar = (dispatch, value) => dispatch({ type: "FIXED_NAVBAR", val
 const setOpenConfigurator = (dispatch, value) => dispatch({ type: "OPEN_CONFIGURATOR", value });
 const setDirection = (dispatch, value) => dispatch({ type: "DIRECTION", value });
 const setLayout = (dispatch, value) => dispatch({ type: "LAYOUT", value });
+const showSnackBar = (dispatch, message, severity = "info") =>
+  dispatch({
+    type: "SHOW_SNACKBAR",
+    payload: { message, severity },
+  });
+
+const hideSnackBar = (dispatch) => dispatch({ type: "HIDE_SNACKBAR" });
 
 export {
   VisionUIControllerProvider,
@@ -116,4 +136,6 @@ export {
   setOpenConfigurator,
   setDirection,
   setLayout,
+  showSnackBar,
+  hideSnackBar,
 };

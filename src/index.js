@@ -23,6 +23,9 @@ import App from "App";
 
 // Vision UI Dashboard React Context Provider
 import { VisionUIControllerProvider } from "context";
+import { ReactQueryProvider } from "./providers/queryProvider";
+import VisionUISnackBar from "./components/VuiSnackBar";
+import { AuthProvider } from "./context/auth/authContext";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n";
 
@@ -30,11 +33,19 @@ const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
 
 
-root.render(<BrowserRouter>
-  <VisionUIControllerProvider>
-    <I18nextProvider i18n={i18n}>
-      <App />
-    </I18nextProvider>
-  </VisionUIControllerProvider>
-</BrowserRouter>);
+root.render(
+  <BrowserRouter>
+    <VisionUIControllerProvider>
+      <ReactQueryProvider>
+        <AuthProvider>
+          <VisionUISnackBar />
+          <I18nextProvider i18n={i18n}>
+            <App />
+          </I18nextProvider>
+        </AuthProvider>
+      </ReactQueryProvider>
+    </VisionUIControllerProvider>
+  </BrowserRouter>,
+);
+
 

@@ -20,32 +20,32 @@
 import borders from "assets/theme/base/borders";
 import colors from "assets/theme/base/colors";
 
-const { dark } = colors;
+const { dark, info, white } = colors;
 const { borderWidth, borderColor } = borders;
 
 export default {
   styleOverrides: {
     root: {
-      color: borderColor,
+      color: borderColor.white,
       transition: "all 200ms linear",
 
       "&.Mui-active": {
-        color: dark.main,
+        color: info.main,
       },
 
       "&.Mui-completed": {
-        color: dark.main,
+        color: info.main,
       },
     },
 
     alternativeLabel: {
-      top: "14%",
+      top: "10%",
       left: "-50%",
       right: "50%",
     },
 
     line: {
-      borderWidth: `${borderWidth[2]} !important`,
+      borderWidth: `${borderWidth[4]} !important`,
       borderColor: "currentColor",
     },
   },

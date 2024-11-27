@@ -60,14 +60,4 @@ function PageLayout({ children }) {
   );
 }
 
-// Setting default values for the props for PageLayout
-PageLayout.defaultProps = {
-  background: "default",
-};
-
-// Typechecking props for the PageLayout
-PageLayout.propTypes = {
-  children: PropTypes.node.isRequired,
-};
-
 export default PageLayout;

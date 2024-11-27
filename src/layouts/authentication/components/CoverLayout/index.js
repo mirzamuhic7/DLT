@@ -17,14 +17,12 @@
 */
 
 // prop-types is a library for typechecking of props
-import PropTypes from "prop-types";
 
 // Vision UI Dashboard React components
 import VuiBox from "components/VuiBox";
 import VuiTypography from "components/VuiTypography";
 
 // Vision UI Dashboard React example components
-import DefaultNavbar from "examples/Navbars/DefaultNavbar";
 import PageLayout from "examples/LayoutContainers/PageLayout";
 
 
@@ -35,17 +33,17 @@ import colors from "assets/theme/base/colors";
 import tripleLinearGradient from "assets/theme/functions/tripleLinearGradient";
 
 function CoverLayout({
-  color,
-  header,
-  title,
-  description,
-  motto,
-  premotto,
-  image,
-  top,
-  cardContent,
-  children,
-}) {
+                       color,
+                       header,
+                       title,
+                       description,
+                       motto,
+                       premotto,
+                       image,
+                       top,
+                       cardContent,
+                       children,
+                     }) {
   const { gradients } = colors;
   return (
     <PageLayout
@@ -53,7 +51,7 @@ function CoverLayout({
         gradients.cover.main,
         gradients.cover.state,
         gradients.cover.stateSecondary,
-        gradients.cover.angle
+        gradients.cover.angle,
       )}
     >
 
@@ -88,7 +86,7 @@ function CoverLayout({
           flexDirection="column"
         >
           <VuiTypography
-            textAlign={cardContent ? "center" : "start"}
+            textAlign={"center"}
             variant="subtitle1"
             fontWeight="medium"
             color="white"
@@ -98,7 +96,7 @@ function CoverLayout({
             {premotto}
           </VuiTypography>
           <VuiTypography
-            textAlign={cardContent ? "center" : "start"}
+            textAlign={"center"}
             variant="h2"
             fontWeight="bold"
             color="logo"
@@ -116,7 +114,7 @@ function CoverLayout({
           position: "relative",
           alignItems: "center",
           maxWidth: "1044px",
-          minHeight: "75vh",
+          minHeight: "100vh",
           margin: "0 auto",
         }}
       >
@@ -143,7 +141,7 @@ function CoverLayout({
               <>
                 <VuiBox mb="35px">
                   <VuiTypography
-                    textAlign={cardContent ? "center" : "start"}
+                    textAlign={"center"}
                     variant="h3"
                     fontWeight="bold"
                     color={color}
@@ -152,7 +150,7 @@ function CoverLayout({
                     {title}
                   </VuiTypography>
                   <VuiTypography
-                    textAlign={cardContent ? "center !important" : "start !important"}
+                    textAlign={"center"}
                     mx="auto"
                     sx={({ typography: { size }, functions: { pxToRem } }) => ({
                       fontWeight: "regular",
@@ -202,23 +200,5 @@ function CoverLayout({
   );
 }
 
-// Setting default values for the props of CoverLayout
-CoverLayout.defaultProps = {
-  header: "",
-  title: "",
-  description: "",
-  color: "info",
-  top: 20,
-};
-
-// Typechecking props for the CoverLayout
-CoverLayout.propTypes = {
-  header: PropTypes.node,
-  title: PropTypes.string,
-  description: PropTypes.string,
-  image: PropTypes.string.isRequired,
-  top: PropTypes.number,
-  children: PropTypes.node.isRequired,
-};
 
 export default CoverLayout;

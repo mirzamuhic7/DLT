@@ -1,5 +1,55 @@
 {
-  "welcome": "Bienvenue dans mon application!",
-  "login": "Se connecter",
-  "logout": "Se déconnecter"
+  "signup": {
+    "welcome": "Bienvenue !",
+    "description": "Créez un nouveau compte à l'aide de ces formulaires.",
+    "premotto": "",
+    "motto": "PLATFORME POUR ENSEIGNANTS",
+    "forms": {
+      "firstName": "Prénom",
+      "lastName": "Nom de famille",
+      "email": "Email",
+      "password": "Password",
+      "subject": "Matière",
+      "school": "L'établissement",
+      "years": "Années d'expérience ",
+      "upload": "Charger un avatar"
+    },
+    "stepper": {
+      "personal": "Personal Details",
+      "personalPro":"Professional Details",
+      "upload":"Upload Photo"
+    },
+    "placeholder": {
+      "firstName": "Votre prénom",
+      "lastName": "Votre nom de famille",
+      "email": "Votre email",
+      "password": "Votre password",
+      "subject": "Votre matière",
+      "school": "Votre l'établissement",
+      "years": "Votre qnnées d'expérience"
+    },
+    "already": "Vous avez un compte ?",
+    "signin": "S'inscrire"
+  },
+  "login": {
+    "welcome": "Ravi de vous voir !",
+    "description": "Saisissez votre adresse électronique et votre mot de passe pour vous connecter",
+    "forms": {
+      "email": "Email",
+      "password": "Password"
+    },
+    "placeholder": {
+      "email": "Votre email",
+      "password": "Votre password"
+    },
+    "remember": "Souvenez-vous de moi",
+    "already": "Vous n'avez pas de compte ?",
+    "signin": "Inscrivez-vous"
+  },
+  "button": {
+    "next": "Suivant",
+    "back": "Retour",
+    "submit": "Soumettre",
+    "signin": "S'inscrire"
+  }
 }

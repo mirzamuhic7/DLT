@@ -48,7 +48,6 @@ import SignUp from "layouts/authentication/sign-up";
 
 // Vision UI Dashboard React icons
 import { IoHome, IoRocketSharp } from "react-icons/io5";
-import { IoIosDocument } from "react-icons/io";
 import { BsFillPersonFill } from "react-icons/bs";
 import { GiMaterialsScience } from "react-icons/gi";
 import { PiStudentFill } from "react-icons/pi";
@@ -97,16 +96,14 @@ const routes = [
     name: "Se connecter",
     key: "sign-in",
     route: "/authentication/sign-in",
-    icon: <IoIosDocument size="15px" color="inherit" />,
     component: SignIn,
-    noCollapse: true,
+    noCollapse: true
   },
   {
     type: "route",
     name: "S'inscrire",
     key: "sign-up",
     route: "/authentication/sign-up",
-    icon: <IoRocketSharp size="15px" color="inherit" />,
     component: SignUp,
     noCollapse: true,
   },

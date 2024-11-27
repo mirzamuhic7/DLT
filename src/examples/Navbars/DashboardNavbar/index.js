@@ -21,8 +21,6 @@ import { useEffect, useState } from "react";
 // react-router components
 import { useLocation } from "react-router-dom";
 
-// prop-types is a library for typechecking of props.
-import PropTypes from "prop-types";
 
 // @material-ui core components
 import AppBar from "@mui/material/AppBar";

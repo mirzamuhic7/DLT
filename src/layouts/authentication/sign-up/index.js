@@ -1,269 +1,287 @@
-/*!
-
-=========================================================
-* Vision UI Free React - v1.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/vision-ui-free-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com/)
-* Licensed under MIT (https://github.com/creativetimofficial/vision-ui-free-react/blob/master LICENSE.md)
-
-* Design and Coded by Simmmple & Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-
 import { useState } from "react";
-
-// react-router-dom components
-import { Link } from "react-router-dom";
-
-// @mui material components
-import Icon from "@mui/material/Icon";
-import IconButton from "@mui/material/IconButton";
-import Stack from "@mui/material/Stack";
-
-// Icons
-import { FaFacebook, FaGoogle } from "react-icons/fa";
-
-// Vision UI Dashboard React components
-import VuiBox from "components/VuiBox";
-import VuiTypography from "components/VuiTypography";
-import VuiInput from "components/VuiInput";
-import VuiButton from "components/VuiButton";
-import VuiSwitch from "components/VuiSwitch";
-import GradientBorder from "examples/GradientBorder";
-
-// Vision UI Dashboard assets
-import radialGradient from "assets/theme/functions/radialGradient";
-import rgba from "assets/theme/functions/rgba";
-import palette from "assets/theme/base/colors";
-import borders from "assets/theme/base/borders";
-
-// Authentication layout components
+import { useForm } from "react-hook-form"; // Import React Hook Form
 import CoverLayout from "layouts/authentication/components/CoverLayout";
-
-// Images
 import bgSignIn from "assets/images/signUpImage.png";
-import { useVisionUIController } from "../../../context";
+import VuiBox from "../../../components/VuiBox";
+import VuiInput from "../../../components/VuiInput";
+import VuiButton from "../../../components/VuiButton";
+import VuiStepper from "../../../components/VuiStepper";
+import VuiTypography from "../../../components/VuiTypography";
+import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton"; // For the toggle icon
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { Link } from "react-router-dom";
+import { useSignUp } from "../../../api";
+import CircularProgress from "@mui/material/CircularProgress";
 import { useTranslation } from "react-i18next";
-import i18n from "i18next";
+import { navbarIconButton } from "examples/Navbars/DashboardNavbar/styles";
+import Icon from "@mui/material/Icon";
 
-function SignIn() {
-  const [rememberMe, setRememberMe] = useState(true);
+function SignUp() {
 
-  const handleSetRememberMe = () => setRememberMe(!rememberMe);
+  const { t, i18n } = useTranslation();
+  const steps = [t('signup.stepper.personal'), t('signup.stepper.personalPro'), t('signup.stepper.upload')];
 
-  const { t } = useTranslation(); // 't' function to get translation keys
-  const [context, dispatch] = useVisionUIController();
+  const [activeStep, setActiveStep] = useState(0);
+  const [avatarPreview, setAvatarPreview] = useState(null); // State to store the avatar preview
+  const [showPassword, setShowPassword] = useState(false); // Toggle for password visibility
 
+  const { mutate, isLoading } = useSignUp();
 
-  const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng); // Change the language dynamically
-    // Change text direction for Arabic (right-to-left)
-    if (lng === "ar") {
-      document.body.setAttribute("dir", "rtl");
-    } else {
-      document.body.setAttribute("dir", "ltr");
+  const { register, handleSubmit, getValues, formState: { errors }, setValue, trigger } = useForm({
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      subject: "",
+      institution: "",
+      yearsOfExperience: 0,
+      profilePic: null,
+      password: "",
+    },
+  });
+
+  const validateStep = async () => {
+    let fieldsToValidate = [];
+    switch (activeStep) {
+      case 0:
+        fieldsToValidate = ["firstName", "lastName", "email", "password"];
+        break;
+      case 1:
+        fieldsToValidate = ["subject", "institution", "yearsOfExperience"];
+        break;
+      case 2:
+        fieldsToValidate = ["profilePic"];
+        break;
+      default:
+        break;
     }
+    return await trigger(fieldsToValidate);
+  };
+
+  const handleNext = async () => {
+    const isStepValid = await validateStep();
+    if (isStepValid) {
+      setActiveStep((prev) => prev + 1);
+    }
+  };
+
+  const handleBack = () => {
+    if (activeStep > 0) setActiveStep((prev) => prev - 1);
+  };
+
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+
+    // Append text fields
+    formData.append("email", data.email);
+    formData.append("firstName", data.firstName);
+    formData.append("institution", data.institution);
+    formData.append("lastName", data.lastName);
+    formData.append("password", data.password);
+    formData.append("subject", data.subject);
+    formData.append("yearsOfExperience", data.yearsOfExperience);
+
+    // Append file (if any)
+    if (data.profilePic && data.profilePic instanceof File) {
+      formData.append("profilePic", data.profilePic); // Make sure `profilePic` is a File
+    }
+
+    await mutate(formData);
+
+  };
+
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setValue("profilePic", file); // Update photo in React Hook Form
+      setAvatarPreview(URL.createObjectURL(file));
+    }
+  };
+
+
+  const renderStepContent = () => {
+    switch (activeStep) {
+      case 0:
+        return (
+          <VuiBox sx={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+            <VuiTypography sx={{ margin: "10px 0" }} component="label" variant="button" color="white"
+              fontWeight="medium">
+              {t("signup.forms.firstName")}
+            </VuiTypography>
+            <VuiInput
+              {...register("firstName", { required: "Le prénom est obligatoire." })}
+              placeholder={t("signup.placeholder.firstName")}
+              error={!!errors.firstName}
+            />
+            {errors.firstName &&
+              <VuiTypography sx={{ color: "red", fontSize: "0.7rem" }}>{errors.firstName.message}</VuiTypography>}
+            <VuiTypography sx={{ margin: "10px 0" }} component="label" variant="button" color="white"
+              fontWeight="medium">
+              {t("signup.forms.lastName")}
+            </VuiTypography>
+            <VuiInput
+              {...register("lastName", { required: "Le nom de famille est obligatoire." })}
+              placeholder={t("signup.placeholder.lastName")}
+              error={!!errors.lastName}
+            />
+            {errors.lastName &&
+              <VuiTypography sx={{ color: "red", fontSize: "0.7rem" }}>{errors.lastName.message}</VuiTypography>}
+            <VuiTypography sx={{ margin: "10px 0" }} component="label" variant="button" color="white"
+              fontWeight="medium">
+              {t("signup.forms.email")}
+            </VuiTypography>
+            <VuiInput
+              {...register("email", {
+                required: "L'adresse électronique est obligatoire.",
+                pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Enter a valid email address." },
+              })}
+              placeholder={t("signup.placeholder.email")}
+              type="email"
+              error={!!errors.email}
+            />
+            {errors.email &&
+              <VuiTypography sx={{ color: "red", fontSize: "0.7rem" }}>{errors.email.message}</VuiTypography>
+            }
+            <VuiTypography sx={{ margin: "10px 0" }} component="label" variant="button" color="white"
+              fontWeight="medium">
+              {t("signup.forms.password")}
+            </VuiTypography>
+            <VuiInput
+              {...register("password", {
+                required: "Le mot de passe est requis.",
+                minLength: { value: 6, message: "Password must be at least 6 characters." },
+              })}
+              placeholder={t("signup.placeholder.password")}
+              type={showPassword ? "text" : "password"}
+              error={!!errors.password}
+              endAdornment={
+                <IconButton sx={{ position: "absolute", right: 25 }} onClick={() => setShowPassword(!showPassword)}>
+                  {showPassword ? <VisibilityOff color="white" /> : <Visibility color="white" />}
+                </IconButton>
+              }
+            />
+            {errors.password &&
+              <VuiTypography sx={{ color: "red", fontSize: "0.7rem" }}>{errors.password.message}</VuiTypography>
+            }
+          </VuiBox>
+        );
+      case 1:
+        return (
+          <VuiBox sx={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+            <VuiTypography sx={{ margin: "10px 0" }} component="label" variant="button" color="white"
+              fontWeight="medium">
+              {t("signup.forms.subject")}
+            </VuiTypography>
+            <VuiInput
+              {...register("subject", { required: "Subject is required." })}
+              placeholder={t("signup.placeholder.subject")}
+              error={!!errors.subject}
+            />
+            {errors.subject &&
+              <VuiTypography sx={{ color: "red", fontSize: "0.7rem" }}>{errors.subject.message}</VuiTypography>}
+
+            <VuiTypography sx={{ margin: "10px 0" }} component="label" variant="button" color="white"
+              fontWeight="medium">
+              {t("signup.forms.school")}
+            </VuiTypography>
+            <VuiInput
+              {...register("institution", { required: "School is required." })}
+              placeholder={t("signup.placeholder.school")}
+              error={!!errors.institution}
+            />
+            {errors.institution &&
+              <VuiTypography sx={{ color: "red", fontSize: "0.7rem" }}>{errors.institution.message}</VuiTypography>}
+            <VuiTypography sx={{ margin: "10px 0" }} component="label" variant="button" color="white"
+              fontWeight="medium">
+              {t("signup.forms.years")}
+            </VuiTypography>
+            <VuiInput
+              type={"number"}
+              {...register("yearsOfExperience", { required: "Years Of Experience is required." })}
+              placeholder={t("signup.placeholder.years")}
+              error={!!errors.yearsOfExperience}
+            />
+            {errors.yearsOfExperience &&
+              <VuiTypography
+                sx={{ color: "red", fontSize: "0.7rem" }}>{errors.yearsOfExperience.message}</VuiTypography>}
+          </VuiBox>
+        );
+      case 2:
+        return (
+          <VuiBox sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+            <VuiTypography sx={{ margin: "10px 0" }} component="label" variant="button" color="white"
+              fontWeight="medium">
+              {t("signup.forms.upload")}
+            </VuiTypography>
+
+            {avatarPreview ? (
+              <Avatar sx={{ width: 100, height: 100, marginBottom: "1em" }} src={avatarPreview} />
+            ) : (
+              <Avatar sx={{ width: 100, height: 100, marginBottom: "1em" }} />
+            )}
+
+            <input type="file" accept="image/*" onChange={handleAvatarChange} style={{ marginBottom: "1em" }} />
+            {errors.profilePic &&
+              <VuiTypography sx={{ color: "red", fontSize: "0.7rem" }}>{errors.profilePic.message}</VuiTypography>}
+          </VuiBox>
+        );
+      default:
+        return "Unknown step";
+    }
+  };
+
+  const toggleLanguage = () => {
+    const newLang = i18n.language === "ar" ? "fr" : "ar";
+    i18n.changeLanguage(newLang);
   };
 
   return (
     <CoverLayout
-      title={t("welcome")}
+      title={t("signup.welcome")}
       color="white"
-      description="Use these awesome forms to login or create new account in your project for free."
-      image={bgSignIn}
+      description={t("signup.description")}
       premotto="PRIME BETA SCHOOL"
-      motto={context.direction === "rtl" ? "منصة المعلمين" : "PLATFORME DES ENSEIGNANTS"}
-      cardContent
-      top={"50px"}
+      motto={t('signup.motto')}
+      image={bgSignIn}
     >
-      <GradientBorder borderRadius={borders.borderRadius.form} minWidth="100%" maxWidth="100%">
-        <VuiBox
-          component="form"
-          role="form"
-          borderRadius="inherit"
-          p="45px"
-          sx={({ palette: { secondary } }) => ({
-            backgroundColor: secondary.focus,
-          })}
-        >
-          <VuiTypography
-            color="white"
-            fontWeight="bold"
-            textAlign="center"
-            mb="24px"
-            sx={({ typography: { size } }) => ({
-              fontSize: size.lg,
-            })}
-          >
-            Register with
-          </VuiTypography>
-          <Stack mb="25px" justifyContent="center" alignItems="center" direction="row" spacing={2}>
-            <GradientBorder borderRadius="xl">
-              <a href="#">
-                <IconButton
-                  transition="all .25s ease"
-                  justify="center"
-                  align="center"
-                  bg="rgb(19,21,54)"
-                  borderradius="15px"
-                  sx={({ palette: { secondary }, borders: { borderRadius } }) => ({
-                    borderRadius: borderRadius.xl,
-                    padding: "25px",
-                    backgroundColor: secondary.focus,
-                    "&:hover": {
-                      backgroundColor: rgba(secondary.focus, 0.9),
-                    },
-                  })}
-                >
-                  <Icon
-                    as={FaFacebook}
-                    w="30px"
-                    h="30px"
-                    sx={({ palette: { white } }) => ({
-                      color: white.focus,
-                    })}
-                  />
-                </IconButton>
-              </a>
-            </GradientBorder>
-            <GradientBorder borderRadius="xl">
-              <a href="#">
-                <IconButton
-                  transition="all .25s ease"
-                  justify="center"
-                  align="center"
-                  bg="rgb(19,21,54)"
-                  borderradius="15px"
-                  sx={({ palette: { secondary }, borders: { borderRadius } }) => ({
-                    borderRadius: borderRadius.xl,
-                    padding: "25px",
-                    backgroundColor: secondary.focus,
-                    "&:hover": {
-                      backgroundColor: rgba(secondary.focus, 0.9),
-                    },
-                  })}
-                >
-                  <Icon
-                    as={FaGoogle}
-                    w="30px"
-                    h="30px"
-                    sx={({ palette: { white } }) => ({
-                      color: white.focus,
-                    })}
-                  />
-                </IconButton>
-              </a>
-            </GradientBorder>
-          </Stack>
-          <VuiTypography
-            color="text"
-            fontWeight="bold"
-            textAlign="center"
-            mb="14px"
-            sx={({ typography: { size } }) => ({ fontSize: size.lg })}
-          >
-            or
-          </VuiTypography>
-          <VuiBox mb={2}>
-            <VuiBox mb={1} ml={0.5}>
-              <VuiTypography component="label" variant="button" color="white" fontWeight="medium">
-                Name
-              </VuiTypography>
-            </VuiBox>
-            <GradientBorder
-              minWidth="100%"
-              borderRadius={borders.borderRadius.lg}
-              padding="1px"
-              backgroundImage={radialGradient(
-                palette.gradients.borderLight.main,
-                palette.gradients.borderLight.state,
-                palette.gradients.borderLight.angle,
-              )}
-            >
-              <VuiInput
-                placeholder="Your full name..."
-                sx={({ typography: { size } }) => ({
-                  fontSize: size.sm,
-                })}
-              />
-            </GradientBorder>
-          </VuiBox>
-          <VuiBox mb={2}>
-            <VuiBox mb={1} ml={0.5}>
-              <VuiTypography component="label" variant="button" color="white" fontWeight="medium">
-                Email
-              </VuiTypography>
-            </VuiBox>
-            <GradientBorder
-              minWidth="100%"
-              borderRadius={borders.borderRadius.lg}
-              padding="1px"
-              backgroundImage={radialGradient(
-                palette.gradients.borderLight.main,
-                palette.gradients.borderLight.state,
-                palette.gradients.borderLight.angle,
-              )}
-            >
-              <VuiInput
-                type="email"
-                placeholder="Your email..."
-                sx={({ typography: { size } }) => ({
-                  fontSize: size.sm,
-                })}
-              />
-            </GradientBorder>
-          </VuiBox>
-          <VuiBox mb={2}>
-            <VuiBox mb={1} ml={0.5}>
-              <VuiTypography component="label" variant="button" color="white" fontWeight="medium">
-                Password
-              </VuiTypography>
-            </VuiBox>
-            <GradientBorder
-              minWidth="100%"
-              borderRadius={borders.borderRadius.lg}
-              padding="1px"
-              backgroundImage={radialGradient(
-                palette.gradients.borderLight.main,
-                palette.gradients.borderLight.state,
-                palette.gradients.borderLight.angle,
-              )}
-            >
-              <VuiInput
-                type="password"
-                placeholder="Your password..."
-                sx={({ typography: { size } }) => ({
-                  fontSize: size.sm,
-                })}
-              />
-            </GradientBorder>
-          </VuiBox>
-          <VuiBox display="flex" alignItems="center">
-            <VuiSwitch color="info" checked={rememberMe} onChange={handleSetRememberMe} />
+      {isLoading ?
+        <VuiBox sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <CircularProgress color={"info"} />
+        </VuiBox> :
+        <VuiBox sx={{ width: "100%" }}>
+          <IconButton style={{ position: "absolute", top: 10, right: 0 }} onClick={toggleLanguage} sx={navbarIconButton} size="small">
+            <Icon>
+              translate
+            </Icon>
             <VuiTypography
-              variant="caption"
-              color="white"
+              variant="button"
               fontWeight="medium"
-              onClick={handleSetRememberMe}
-              sx={{ cursor: "pointer", userSelect: "none" }}
             >
-              &nbsp;&nbsp;&nbsp;&nbsp;Remember me
+              {i18n.language === "ar" ? "العربية" : "français"}
             </VuiTypography>
-          </VuiBox>
-          <VuiBox mt={4} mb={1}>
-            <VuiButton color="info" fullWidth>
-              SIGN UP
+          </IconButton>
+          <VuiStepper activeStep={activeStep} steps={steps} />
+          <VuiBox>{renderStepContent()}</VuiBox>
+          <VuiBox display="flex" justifyContent="space-between" sx={{ marginTop: "2rem" }}>
+            <VuiButton variant="contained" color="secondary" disabled={activeStep === 0} onClick={handleBack}>
+              {t("button.back")}
             </VuiButton>
+            {activeStep === steps.length - 1 ? (
+              <VuiButton variant="gradient" gradient color="info" onClick={handleSubmit(onSubmit)} type="submit">
+                {t("button.submit")}
+              </VuiButton>
+            ) : (
+              <VuiButton variant="contained" color="info" onClick={handleNext}>
+                {t("button.next")}
+              </VuiButton>
+            )}
           </VuiBox>
           <VuiBox mt={3} textAlign="center">
             <VuiTypography variant="button" color="text" fontWeight="regular">
-              Already have an account?{" "}
+              {t("signup.already")}
               <VuiTypography
                 component={Link}
                 to="/authentication/sign-in"
@@ -271,14 +289,13 @@ function SignIn() {
                 color="white"
                 fontWeight="medium"
               >
-                Sign in
+                {t("signup.signin")}
               </VuiTypography>
             </VuiTypography>
           </VuiBox>
-        </VuiBox>
-      </GradientBorder>
+        </VuiBox>}
     </CoverLayout>
   );
 }
 
-export default SignIn;
+export default SignUp;

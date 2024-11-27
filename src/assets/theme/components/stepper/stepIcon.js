@@ -24,7 +24,7 @@ import borders from "assets/theme/base/borders";
 import pxToRem from "assets/theme/functions/pxToRem";
 import boxShadow from "assets/theme/functions/boxShadow";
 
-const { dark, white } = colors;
+const { dark, info, white } = colors;
 const { borderWidth, borderColor } = borders;
 
 export default {
@@ -34,27 +34,27 @@ export default {
       fill: white.main,
       stroke: white.main,
       strokeWidth: pxToRem(10),
-      width: pxToRem(13),
-      height: pxToRem(13),
-      border: `${borderWidth[2]} solid ${borderColor}`,
+      width: pxToRem(20),
+      height: pxToRem(20),
+      border: `${borderWidth[2]} solid ${white.main}`,
       borderRadius: "50%",
       zIndex: 99,
       transition: "all 200ms linear",
 
       "&.Mui-active": {
-        background: dark.main,
-        fill: dark.main,
-        stroke: dark.main,
-        borderColor: dark.main,
-        boxShadow: boxShadow([0, 0], [0, 2], dark.main, 1),
+        background: info.main,
+        fill: info.main,
+        stroke: info.main,
+        borderColor: info.main,
+        boxShadow: boxShadow([0, 0], [0, 2], info.main, 1),
       },
 
       "&.Mui-completed": {
-        background: dark.main,
-        fill: dark.main,
-        stroke: dark.main,
-        borderColor: dark.main,
-        boxShadow: boxShadow([0, 0], [0, 2], dark.main, 1),
+        background: info.main,
+        fill: info.main,
+        stroke: info.main,
+        borderColor: info.main,
+        boxShadow: boxShadow([0, 0], [0, 2], info.main, 1),
       },
     },
   },
