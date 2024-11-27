@@ -43,6 +43,7 @@ import routes from "routes";
 
 // Vision UI Dashboard React contexts
 import { setMiniSidenav, setOpenConfigurator, useVisionUIController } from "context";
+import { useRefreshToken } from "./api";
 
 export default function App() {
   const [controller, dispatch] = useVisionUIController();
@@ -50,6 +51,9 @@ export default function App() {
   const [onMouseEnter, setOnMouseEnter] = useState(false);
   const [rtlCache, setRtlCache] = useState(null);
   const { pathname } = useLocation();
+
+  const { mutate } = useRefreshToken();
+
 
   // Cache for the rtl
   useMemo(() => {
@@ -104,6 +108,15 @@ export default function App() {
       return null;
     });
 
+  useEffect(() => {
+    const refresh_token = localStorage.getItem("refresh_token");
+    if (refresh_token) {
+      const refresh = async () => {
+        await mutate(refresh_token);
+      };
+      refresh();
+    }
+  }, []);
 
   return direction === "rtl" ? (
     <CacheProvider value={rtlCache}>

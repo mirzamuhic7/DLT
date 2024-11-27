@@ -17,20 +17,28 @@
 */
 
 import React from "react";
-import { createRoot} from "react-dom/client";
+import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "App";
 
 // Vision UI Dashboard React Context Provider
 import { VisionUIControllerProvider } from "context";
+import { ReactQueryProvider } from "./providers/queryProvider";
+import VisionUISnackBar from "./components/VuiSnackBar";
+import { AuthProvider } from "./context/auth/authContext";
 
-const rootElement = document.getElementById('root');
+const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
 
 
 root.render(<BrowserRouter>
   <VisionUIControllerProvider>
-    <App />
+    <ReactQueryProvider>
+      <AuthProvider>
+        <VisionUISnackBar />
+        <App />
+      </AuthProvider>
+    </ReactQueryProvider>
   </VisionUIControllerProvider>
-</BrowserRouter>)
+</BrowserRouter>);
 
