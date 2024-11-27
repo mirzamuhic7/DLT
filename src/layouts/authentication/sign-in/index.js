@@ -40,13 +40,14 @@ import CoverLayout from "layouts/authentication/components/CoverLayout";
 // Images
 import bgSignIn from "assets/images/signInImage.png";
 import { useVisionUIController } from "../../../context";
+import { useTranslation } from "react-i18next";
 
 function SignIn() {
   const [rememberMe, setRememberMe] = useState(true);
 
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
 
-  const [context, dispatch] = useVisionUIController();
+  const { t } = useTranslation(); // 't' function to get translation keys
 
   return (
     <CoverLayout

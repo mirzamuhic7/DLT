@@ -49,17 +49,31 @@ import CoverLayout from "layouts/authentication/components/CoverLayout";
 // Images
 import bgSignIn from "assets/images/signUpImage.png";
 import { useVisionUIController } from "../../../context";
+import { useTranslation } from "react-i18next";
+import i18n from "i18next";
 
 function SignIn() {
   const [rememberMe, setRememberMe] = useState(true);
 
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
 
+  const { t } = useTranslation(); // 't' function to get translation keys
   const [context, dispatch] = useVisionUIController();
+
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng); // Change the language dynamically
+    // Change text direction for Arabic (right-to-left)
+    if (lng === "ar") {
+      document.body.setAttribute("dir", "rtl");
+    } else {
+      document.body.setAttribute("dir", "ltr");
+    }
+  };
 
   return (
     <CoverLayout
-      title="Welcome!"
+      title={t("welcome")}
       color="white"
       description="Use these awesome forms to login or create new account in your project for free."
       image={bgSignIn}

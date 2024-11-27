@@ -17,20 +17,24 @@
 */
 
 import React from "react";
-import { createRoot} from "react-dom/client";
+import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "App";
 
 // Vision UI Dashboard React Context Provider
 import { VisionUIControllerProvider } from "context";
+import { I18nextProvider } from "react-i18next";
+import i18n from "./i18n";
 
-const rootElement = document.getElementById('root');
+const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
 
 
 root.render(<BrowserRouter>
   <VisionUIControllerProvider>
-    <App />
+    <I18nextProvider i18n={i18n}>
+      <App />
+    </I18nextProvider>
   </VisionUIControllerProvider>
-</BrowserRouter>)
+</BrowserRouter>);
 
