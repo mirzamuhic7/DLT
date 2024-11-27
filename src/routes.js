@@ -47,10 +47,12 @@ import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
 
 // Vision UI Dashboard React icons
-import { IoHome, IoRocketSharp } from "react-icons/io5";
+import { IoHome } from "react-icons/io5";
 import { BsFillPersonFill } from "react-icons/bs";
 import { GiMaterialsScience } from "react-icons/gi";
 import { PiStudentFill } from "react-icons/pi";
+import ResetPassword from "layouts/authentication/reset-password";
+import ForgetPassword from "layouts/authentication/forget-password";
 
 
 const routes = [
@@ -62,6 +64,7 @@ const routes = [
     icon: <IoHome size="15px" color="inherit" />,
     component: Dashboard,
     noCollapse: true,
+    isProtected: true,
   },
   {
     type: "collapse",
@@ -71,6 +74,7 @@ const routes = [
     icon: <GiMaterialsScience size="15px" color="inherit" />,
     component: Courses,
     noCollapse: true,
+    isProtected: true,
   },
   {
     type: "collapse",
@@ -80,6 +84,7 @@ const routes = [
     icon: <PiStudentFill size="15px" color="inherit" />,
     component: Students,
     noCollapse: true,
+    isProtected: true,
   },
   { type: "title", title: "Account Pages", key: "account-pages" },
   {
@@ -90,6 +95,7 @@ const routes = [
     icon: <BsFillPersonFill size="15px" color="inherit" />,
     component: Profile,
     noCollapse: true,
+    isProtected: true,
   },
   {
     type: "route",
@@ -97,7 +103,8 @@ const routes = [
     key: "sign-in",
     route: "/authentication/sign-in",
     component: SignIn,
-    noCollapse: true
+    noCollapse: true,
+    isGuestOnly: true,
   },
   {
     type: "route",
@@ -106,6 +113,25 @@ const routes = [
     route: "/authentication/sign-up",
     component: SignUp,
     noCollapse: true,
+    isGuestOnly: true,
+  },
+  {
+    type: "route",
+    name: "Réinitialiser le mot de passe",
+    key: "reset-password",
+    route: "/authentication/reset-password",
+    component: ResetPassword,
+    noCollapse: true,
+    isGuestOnly: true,
+  },
+  {
+    type: "route",
+    name: "Réinitialiser le mot de passe",
+    key: "reset-password",
+    route: "/authentication/forget-password",
+    component: ForgetPassword,
+    noCollapse: true,
+    isGuestOnly: true,
   },
 ];
 

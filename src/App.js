@@ -44,6 +44,8 @@ import routes from "routes";
 // Vision UI Dashboard React contexts
 import { setMiniSidenav, setOpenConfigurator, useVisionUIController } from "context";
 import { useRefreshToken } from "./api";
+import ProtectedRoute from "providers/protectedRoute";
+import GuestRoute from "providers/guestRoute";
 
 export default function App() {
   const [controller, dispatch] = useVisionUIController();
@@ -98,11 +100,43 @@ export default function App() {
   const getRoutes = (allRoutes) =>
     allRoutes.map((route) => {
       if (route.collapse) {
-        return getRoutes(route.collapse);
+        return getRoutes(route.collapse); // Recursively process nested routes if any
       }
 
       if (route.route) {
-        return <Route exact path={route.route} component={route.component} key={route.key} />;
+        if (route.isProtected) {
+          // Use ProtectedRoute for protected routes
+          return (
+            <ProtectedRoute
+              exact
+              path={route.route}
+              component={route.component}
+              key={route.key}
+            />
+          );
+        }
+
+        if (route.isGuestOnly) {
+          // Use GuestRoute for login or sign-up pages for unauthenticated users only
+          return (
+            <GuestRoute
+              exact
+              path={route.route}
+              component={route.component}
+              key={route.key}
+            />
+          );
+        }
+
+        // Use normal Route for non-protected routes
+        return (
+          <Route
+            exact
+            path={route.route}
+            component={route.component}
+            key={route.key}
+          />
+        );
       }
 
       return null;

@@ -122,6 +122,19 @@ function SignIn() {
             )}
           </VuiBox>
 
+          <VuiBox display="flex" justifyContent="flex-end" mb={2}>
+            <VuiTypography
+              component={Link}
+              to="/authentication/forget-password"
+              variant="caption"
+              color="white"
+              fontWeight="medium"
+              sx={{ textDecoration: "underline", cursor: "pointer" }}
+            >
+              Forgot password?
+            </VuiTypography>
+          </VuiBox>
+
           {/* Remember Me */}
           <VuiBox display="flex" alignItems="center">
             <VuiSwitch color="info" checked={rememberMe} onChange={handleSetRememberMe} />
@@ -135,6 +148,7 @@ function SignIn() {
               &nbsp;&nbsp;&nbsp;&nbsp;{t('login.remember')}
             </VuiTypography>
           </VuiBox>
+
 
           {/* Submit Button */}
           <VuiBox mt={4} mb={1}>
