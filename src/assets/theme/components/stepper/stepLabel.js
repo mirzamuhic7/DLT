@@ -23,24 +23,24 @@ import colors from "assets/theme/base/colors";
 // Vision UI Dashboard React helper functions
 import pxToRem from "assets/theme/functions/pxToRem";
 
-const { size, fontWeightRegular } = typography;
-const { grey, dark, text } = colors;
+const { size, fontWeightLight } = typography;
+const { grey, dark, white, info, text } = colors;
 
 export default {
   styleOverrides: {
     label: {
       marginTop: `${pxToRem(8)} !important`,
-      fontWeight: fontWeightRegular,
-      fontSize: size.md,
-      color: grey[300],
+      fontWeight: fontWeightLight,
+      fontSize: size.regular,
+      color: white.main,
 
       "&.Mui-active": {
-        fontWeight: `${fontWeightRegular} !important`,
-        color: `${dark.main} !important`,
+        fontWeight: `${fontWeightLight} !important`,
+        color: `${info.main} !important`,
       },
 
       "&.Mui-completed": {
-        fontWeight: `${fontWeightRegular} !important`,
+        fontWeight: `${fontWeightLight} !important`,
         color: `${text.main} !important`,
       },
     },
