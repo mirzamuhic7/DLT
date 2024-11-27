@@ -14,6 +14,8 @@ import { useResetPassword } from "api/auth/resetPassword";
 import { useLocation, useHistory } from "react-router-dom";
 import { useVisionUIController } from "context";
 import { showSnackBar } from "context";
+import Translator from "../components/Translate";
+import { useTranslation } from "react-i18next";
 
 function ResetPassword() {
     const { search } = useLocation(); // Use location to get query parameters
@@ -35,7 +37,7 @@ function ResetPassword() {
     });
 
     // Handle form submission
-    const onSubmit = async (data) => {        
+    const onSubmit = async (data) => {
         if (data.password !== data.confirmPassword) {
             showSnackBar(dispatch, "Password don't match", "error");
             return;
@@ -54,13 +56,15 @@ function ResetPassword() {
         }
     }, [search, history]);
 
+    const { t } = useTranslation();
+
     return (
         <CoverLayout
-            title="Reset Your Password"
+            title={t('resetPassword.reset')}
             color="white"
-            description="Enter and confirm your new password"
+            description={t('resetPassword.description')}
             premotto="PRIME BETA SCHOOL"
-            motto="PLATFORME POUR ENSEIGNANTS"
+            motto={t('signup.motto')}
             image={bgResetPassword} // Background image for reset password page
         >
             {isLoading ? (
@@ -69,11 +73,12 @@ function ResetPassword() {
                 </VuiBox>
             ) : (
                 <VuiBox component="form" onSubmit={handleSubmit(onSubmit)} role="form">
+                    <Translator />
                     {/* Password Field */}
                     <VuiBox mb={2}>
                         <VuiBox>
                             <VuiTypography component="label" variant="button" color="white" fontWeight="medium">
-                                New Password
+                                {t('forms.newPassword')}
                             </VuiTypography>
                         </VuiBox>
                         <VuiInput
@@ -82,7 +87,7 @@ function ResetPassword() {
                                 minLength: { value: 6, message: "Password must be at least 6 characters long" },
                             })}
                             type={showPassword ? "text" : "password"}
-                            placeholder="Enter your new password"
+                            placeholder={t('placeholder.password')}
                             endAdornment={
                                 <IconButton sx={{ position: "absolute", right: 20 }} onClick={() => setShowPassword(!showPassword)}>
                                     {showPassword ? <VisibilityOff color="white" /> : <Visibility color="white" />}
@@ -98,7 +103,7 @@ function ResetPassword() {
                     <VuiBox mb={2}>
                         <VuiBox>
                             <VuiTypography component="label" variant="button" color="white" fontWeight="medium">
-                                Confirm Password
+                                {t('forms.confirmPassword')}
                             </VuiTypography>
                         </VuiBox>
                         <VuiInput
@@ -107,7 +112,7 @@ function ResetPassword() {
                                 minLength: { value: 6, message: "Password must be at least 6 characters long" },
                             })}
                             type={showConfirmPassword ? "text" : "password"}
-                            placeholder="Confirm your new password"
+                            placeholder={t('placeholder.password')}
                             endAdornment={
                                 <IconButton sx={{ position: "absolute", right: 20 }} onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
                                     {showConfirmPassword ? <VisibilityOff color="white" /> : <Visibility color="white" />}
@@ -122,7 +127,7 @@ function ResetPassword() {
                     {/* Submit Button */}
                     <VuiBox mt={4} mb={1}>
                         <VuiButton type="submit" color="info" fullWidth>
-                            Reset Password
+                            {t('button.reset')}
                         </VuiButton>
                     </VuiBox>
                 </VuiBox>

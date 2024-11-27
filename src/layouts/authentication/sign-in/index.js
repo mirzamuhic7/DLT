@@ -8,15 +8,13 @@ import VuiButton from "components/VuiButton";
 import VuiSwitch from "components/VuiSwitch";
 import CoverLayout from "layouts/authentication/components/CoverLayout";
 import bgSignIn from "assets/images/signInImage.png";
-import { useVisionUIController } from "../../../context";
 import IconButton from "@mui/material/IconButton";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Visibility from "@mui/icons-material/Visibility";
 import { useLogin } from "../../../api";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useTranslation } from "react-i18next";
-import { navbarIconButton } from "examples/Navbars/DashboardNavbar/styles";
-import Icon from "@mui/material/Icon";
+import Translator from "../components/Translate";
 
 
 function SignIn() {
@@ -36,7 +34,7 @@ function SignIn() {
   // Handle remember me switch
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
 
   // Handle form submission
@@ -44,10 +42,6 @@ function SignIn() {
     await mutate(data);
   };
 
-  const toggleLanguage = () => {
-    const newLang = i18n.language === "ar" ? "fr" : "ar";
-    i18n.changeLanguage(newLang);
-  };
 
   return (
     <CoverLayout
@@ -65,17 +59,7 @@ function SignIn() {
         <VuiBox component="form" onSubmit={handleSubmit(onSubmit)} role="form">
           {/* Email Field */}
 
-          <IconButton style={{ position: "absolute", top: 10, right: 0 }} onClick={toggleLanguage} sx={navbarIconButton} size="small">
-            <Icon>
-              translate
-            </Icon>
-            <VuiTypography
-              variant="button"
-              fontWeight="medium"
-            >
-              {i18n.language === "ar" ? "العربية" : "français"}
-            </VuiTypography>
-          </IconButton>
+          <Translator />
           <VuiBox mb={2}>
             <VuiBox>
               <VuiTypography component="label" variant="button" color="white" fontWeight="medium">

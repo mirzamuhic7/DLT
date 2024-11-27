@@ -16,8 +16,8 @@
     },
     "stepper": {
       "personal": "Personal Details",
-      "personalPro":"Professional Details",
-      "upload":"Upload Photo"
+      "personalPro": "Professional Details",
+      "upload": "Upload Photo"
     },
     "placeholder": {
       "firstName": "Votre prénom",
@@ -46,10 +46,37 @@
     "already": "Vous n'avez pas de compte ?",
     "signin": "Inscrivez-vous"
   },
+  "forgetPassword": {
+    "forget": "Vous avez oublié votre mot de passe ?",
+    "description": "Enter your email address and we’ll send you instructions to reset your password"
+  },
+  "resetPassword": {
+    "reset": "Réinitialiser votre mot de passe",
+    "description": "Entrez et confirmez votre nouveau mot de passe"
+  },
+  "forms": {
+    "firstName": "Prénom",
+    "lastName": "Nom de famille",
+    "email": "Email",
+    "password": "le mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "newPassword": "Nouveau mot de passe",
+    "subject": "Matière",
+    "school": "L'établissement",
+    "years": "Années d'expérience ",
+    "upload": "Charger un avatar"
+  },
+  "placeholder": {
+    "email": "Votre email",
+    "password": "Votre mot de passe"
+  },
   "button": {
     "next": "Suivant",
     "back": "Retour",
     "submit": "Soumettre",
-    "signin": "S'inscrire"
+    "signin": "S'inscrire",
+    "forgetButton01": "Réessayez dans",
+    "forgetButton02": "Envoyer le lien de réinitialisation",
+    "reset": "Réinitialiser le mot de passe"
   }
 }

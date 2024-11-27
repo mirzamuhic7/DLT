@@ -49,7 +49,6 @@ import { useVisionUIController } from "../../context";
 
 function Dashboard() {
 
-  const [context, dispatch] = useVisionUIController();
 
   return (
     <DashboardLayout>

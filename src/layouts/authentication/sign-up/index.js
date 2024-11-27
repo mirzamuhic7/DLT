@@ -15,12 +15,11 @@ import { Link } from "react-router-dom";
 import { useSignUp } from "../../../api";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useTranslation } from "react-i18next";
-import { navbarIconButton } from "examples/Navbars/DashboardNavbar/styles";
-import Icon from "@mui/material/Icon";
+import Translator from "../components/Translate";
 
 function SignUp() {
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const steps = [t('signup.stepper.personal'), t('signup.stepper.personalPro'), t('signup.stepper.upload')];
 
   const [activeStep, setActiveStep] = useState(0);
@@ -233,10 +232,6 @@ function SignUp() {
     }
   };
 
-  const toggleLanguage = () => {
-    const newLang = i18n.language === "ar" ? "fr" : "ar";
-    i18n.changeLanguage(newLang);
-  };
 
   return (
     <CoverLayout
@@ -252,17 +247,7 @@ function SignUp() {
           <CircularProgress color={"info"} />
         </VuiBox> :
         <VuiBox sx={{ width: "100%" }}>
-          <IconButton style={{ position: "absolute", top: 10, right: 0 }} onClick={toggleLanguage} sx={navbarIconButton} size="small">
-            <Icon>
-              translate
-            </Icon>
-            <VuiTypography
-              variant="button"
-              fontWeight="medium"
-            >
-              {i18n.language === "ar" ? "العربية" : "français"}
-            </VuiTypography>
-          </IconButton>
+          <Translator />
           <VuiStepper activeStep={activeStep} steps={steps} />
           <VuiBox>{renderStepContent()}</VuiBox>
           <VuiBox display="flex" justifyContent="space-between" sx={{ marginTop: "2rem" }}>

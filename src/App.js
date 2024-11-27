@@ -46,6 +46,7 @@ import { setMiniSidenav, setOpenConfigurator, useVisionUIController } from "cont
 import { useRefreshToken } from "./api";
 import ProtectedRoute from "providers/protectedRoute";
 import GuestRoute from "providers/guestRoute";
+import { useTranslation } from "react-i18next";
 
 export default function App() {
   const [controller, dispatch] = useVisionUIController();
@@ -54,6 +55,7 @@ export default function App() {
   const [rtlCache, setRtlCache] = useState(null);
   const { pathname } = useLocation();
 
+  const { i18n } = useTranslation();
   const { mutate } = useRefreshToken();
 
 
@@ -96,6 +98,13 @@ export default function App() {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
   }, [pathname]);
+
+  useEffect(() => {
+    const language = localStorage.getItem("language");
+    if (language === "ar" || language === "fr") {
+      i18n.changeLanguage(language);
+    }
+  }, [])
 
   const getRoutes = (allRoutes) =>
     allRoutes.map((route) => {

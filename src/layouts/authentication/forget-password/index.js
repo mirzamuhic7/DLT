@@ -8,6 +8,8 @@ import CoverLayout from "layouts/authentication/components/CoverLayout";
 import bgForgetPassword from "assets/images/signInImage.png"; // Replace with appropriate image
 import CircularProgress from "@mui/material/CircularProgress";
 import { useForgetPassword } from "api/auth/forgetPassword";
+import { useTranslation } from "react-i18next";
+import Translator from "../components/Translate";
 
 function ForgetPassword() {
     const [cooldown, setCooldown] = useState(0); // Cooldown timer state
@@ -44,13 +46,17 @@ function ForgetPassword() {
         return () => clearTimeout(timer);
     }, [cooldown]);
 
+
+    const { t } = useTranslation();
+
+
     return (
         <CoverLayout
-            title="Forgot your password?"
+            title={t('forgetPassword.forget')}
             color="white"
-            description="Enter your email address and we’ll send you instructions to reset your password"
+            description={t('forgetPassword.description')}
             premotto="PRIME BETA SCHOOL"
-            motto="PLATFORME POUR ENSEIGNANTS"
+            motto={t('signup.motto')}
             image={bgForgetPassword} // Background image for forget password page
         >
             {isLoading ? (
@@ -60,10 +66,11 @@ function ForgetPassword() {
             ) : (
                 <VuiBox component="form" onSubmit={handleSubmit(onSubmit)} role="form">
                     {/* Email Field */}
+                    <Translator />
                     <VuiBox mb={2}>
                         <VuiBox>
                             <VuiTypography component="label" variant="button" color="white" fontWeight="medium">
-                                Email
+                                {t('forms.email')}
                             </VuiTypography>
                         </VuiBox>
                         <VuiInput
@@ -72,7 +79,7 @@ function ForgetPassword() {
                                 pattern: { value: /^\S+@\S+$/, message: "Invalid email format" },
                             })}
                             type="email"
-                            placeholder="Your email address"
+                            placeholder={t('placeholder.email')}
                         />
                         {errors.email && (
                             <VuiTypography variant="caption" color="error">
@@ -84,7 +91,7 @@ function ForgetPassword() {
                     {/* Submit Button */}
                     <VuiBox mt={4} mb={1}>
                         <VuiButton type="submit" color="info" fullWidth disabled={cooldown > 0}>
-                            {cooldown > 0 ? `Try again in ${cooldown}s` : "Send Reset Link"}
+                            {cooldown > 0 ? `${t('button.forgetButton01')} ${cooldown}s` : t('button.forgetButton02')}
                         </VuiButton>
                     </VuiBox>
                 </VuiBox>
