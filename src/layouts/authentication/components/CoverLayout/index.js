@@ -33,17 +33,17 @@ import colors from "assets/theme/base/colors";
 import tripleLinearGradient from "assets/theme/functions/tripleLinearGradient";
 
 function CoverLayout({
-                       color,
-                       header,
-                       title,
-                       description,
-                       motto,
-                       premotto,
-                       image,
-                       top,
-                       cardContent,
-                       children,
-                     }) {
+  color,
+  header,
+  title,
+  description,
+  motto,
+  premotto,
+  image,
+  top,
+  cardContent,
+  children,
+}) {
   const { gradients } = colors;
   return (
     <PageLayout
