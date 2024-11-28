@@ -10,7 +10,6 @@ const createRefreshTokenFn = async (refreshToken) => {
 
 export function useRefreshToken() {
   const [, dispatch] = useVisionUIController(); // Get dispatch from context
-  const history = useHistory();
 
   return useMutation({
     mutationFn: createRefreshTokenFn,
