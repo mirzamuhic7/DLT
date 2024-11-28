@@ -16,6 +16,8 @@ import { useSignUp } from "../../../api";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useTranslation } from "react-i18next";
 import Translator from "../components/Translate";
+import VuiSelect from "components/VuiSelect";
+import { Subjects } from "utils";
 
 function SignUp() {
 
@@ -34,7 +36,7 @@ function SignUp() {
       lastName: "",
       email: "",
       phone: "",
-      subject: "",
+      subject: "MATHEMATICS",
       institution: "",
       yearsOfExperience: 0,
       profilePic: null,
@@ -95,7 +97,15 @@ function SignUp() {
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setValue("profilePic", file); // Update photo in React Hook Form
+      if (file.size > 5 * 1024 * 1024) {
+        alert("File size exceeds 5MB!");
+        return;
+      }
+      if (!file.type.startsWith("image/")) {
+        alert("Only image files are allowed!");
+        return;
+      }
+      setValue("profilePic", file);
       setAvatarPreview(URL.createObjectURL(file));
     }
   };
@@ -174,10 +184,14 @@ function SignUp() {
               fontWeight="medium">
               {t("signup.forms.subject")}
             </VuiTypography>
-            <VuiInput
+            <VuiSelect
               {...register("subject", { required: "Subject is required." })}
-              placeholder={t("signup.placeholder.subject")}
-              error={!!errors.subject}
+              value={getValues("subject")} // Dynamically bind the current form state
+              onChange={(event) => {
+                setValue("subject", event.target.value, { shouldValidate: true }); // Update the state
+              }}
+              label={t("signup.forms.subject")}
+              options={Subjects}
             />
             {errors.subject &&
               <VuiTypography sx={{ color: "red", fontSize: "0.7rem" }}>{errors.subject.message}</VuiTypography>}

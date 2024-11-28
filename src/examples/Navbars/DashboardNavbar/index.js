@@ -102,11 +102,7 @@ function DashboardNavbar({ absolute, light, isMini, pageName }) {
 
   const logout = async () => {
     const refreshToken = getRefreshToken()
-    await mutate(refreshToken, {
-      onSuccess: (res) => {
-        console.log(res);
-      }
-    })
+    await mutate(refreshToken)
   }
 
   // Render the notifications menu

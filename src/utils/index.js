@@ -12,6 +12,16 @@ export function getEnvSafely(envKey, defaultValue) {
     return value;
 }
 
+export const Subjects = [
+    "MATHEMATICS",
+    "SCIENCE",
+    "PHYSICS",
+    "HISTORY_GEOGRAPHY",
+    "ISLAMIC_STUDIES",
+    "ARABIC",
+    "FRENCH",
+    "ENGLISH"
+]
 
 export const getToken = () => {
     try {

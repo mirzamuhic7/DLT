@@ -43,10 +43,7 @@ apiClient.interceptors.response.use(
 
           // Save new tokens
           setTokens(data.token, data.refresh);
-
-          console.log(data);
-
-
+          
           // Retry the original request with new access token
           originalRequest.headers["Authorization"] = `Bearer ${data.token}`;
           return apiClient(originalRequest);
