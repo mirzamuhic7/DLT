@@ -60,13 +60,17 @@ import {
 // Images
 import team2 from "assets/images/team-2.jpg";
 import logoSpotify from "assets/images/small-logos/logo-spotify.svg";
+import { useLogout } from "api";
+import { getRefreshToken } from "utils";
 
-function DashboardNavbar({ absolute, light, isMini , pageName }) {
+function DashboardNavbar({ absolute, light, isMini, pageName }) {
   const [navbarType, setNavbarType] = useState();
   const [controller, dispatch] = useVisionUIController();
   const { miniSidenav, transparentNavbar, fixedNavbar, openConfigurator } = controller;
   const [openMenu, setOpenMenu] = useState(false);
   const route = useLocation().pathname.split("/").slice(1);
+
+  const { mutate } = useLogout()
 
   useEffect(() => {
     // Setting the navbar type
@@ -95,9 +99,17 @@ function DashboardNavbar({ absolute, light, isMini , pageName }) {
   }, [dispatch, fixedNavbar]);
 
   const handleMiniSidenav = () => setMiniSidenav(dispatch, !miniSidenav);
-  const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
   const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
   const handleCloseMenu = () => setOpenMenu(false);
+
+  const logout = async () => {
+    const refreshToken = getRefreshToken()
+    await mutate(refreshToken, {
+      onSuccess: (res) => {
+        console.log(res);
+      }
+    })
+  }
 
   // Render the notifications menu
   const renderMenu = () => (
@@ -198,7 +210,7 @@ function DashboardNavbar({ absolute, light, isMini , pageName }) {
                 size="small"
                 color="inherit"
                 sx={navbarIconButton}
-                onClick={handleConfiguratorOpen}
+                onClick={logout}
               >
                 <Icon>logout</Icon>
               </IconButton>

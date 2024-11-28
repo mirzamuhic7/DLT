@@ -1,9 +1,8 @@
 import { useMutation } from "react-query";
-import { queryClient } from "../../providers/queryProvider";
 import { showSnackBar, useVisionUIController } from "../../context";
-import { authQueryKeys } from "./index";
 import { apiClient } from "../apiClient";
 import { useAuth } from "../../context/auth/authContext";
+import { clearTokens } from "utils";
 
 const createLogoutFn = async (refreshToken) => {
   const response = await apiClient.post("/auth/logout", { refreshToken });
@@ -20,6 +19,7 @@ export function useLogout() {
       logout();
       // Trigger success Snackbar
       showSnackBar(dispatch, "User successfully logged out!", "success");
+      clearTokens()
     },
     onError: (err, credentials, context) => {
       // Trigger error Snackbar

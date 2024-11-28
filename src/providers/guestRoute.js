@@ -1,9 +1,11 @@
+import { useAuth } from 'context/auth/authContext';
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { useAuth } from 'context/auth/authContext'; // Assuming this is your custom hook for auth context
+
+
 
 const GuestRoute = ({ component: Component, ...rest }) => {
-    const { user } = useAuth();  // Get user from auth context
+    const { user } = useAuth();  // Get the current authenticated user
 
     return (
         <Route
