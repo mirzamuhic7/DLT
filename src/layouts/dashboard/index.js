@@ -44,7 +44,6 @@ import { FaShoppingCart } from "react-icons/fa";
 import LineChart from "examples/Charts/LineCharts/LineChart";
 import { lineChartDataDashboard } from "layouts/dashboard/data/lineChartData";
 import { lineChartOptionsDashboard } from "layouts/dashboard/data/lineChartOptions";
-import { useVisionUIController } from "../../context";
 
 
 function Dashboard() {

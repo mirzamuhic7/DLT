@@ -42,22 +42,24 @@ import createCache from "@emotion/cache";
 import routes from "routes";
 
 // Vision UI Dashboard React contexts
-import { setMiniSidenav, setOpenConfigurator, useVisionUIController } from "context";
-import { useRefreshToken } from "./api";
+import { setMiniSidenav, useVisionUIController } from "context";
 import ProtectedRoute from "providers/protectedRoute";
 import GuestRoute from "providers/guestRoute";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "context/auth/authContext";
+import { Box, CircularProgress } from "@mui/material";
+import colors from "assets/theme/base/colors";
+
+const { dark } = colors
 
 export default function App() {
   const [controller, dispatch] = useVisionUIController();
-  const { miniSidenav, direction, layout, openConfigurator, sidenavColor } = controller;
+  const { miniSidenav, direction, layout, sidenavColor } = controller;
   const [onMouseEnter, setOnMouseEnter] = useState(false);
   const [rtlCache, setRtlCache] = useState(null);
   const { pathname } = useLocation();
-
   const { i18n } = useTranslation();
-  const { mutate } = useRefreshToken();
-
+  const { user, isLoading } = useAuth();  // Get the current authenticated user
 
   // Cache for the rtl
   useMemo(() => {
@@ -84,9 +86,6 @@ export default function App() {
       setOnMouseEnter(false);
     }
   };
-
-  // Change the openConfigurator state
-  const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
 
   // Setting the dir attribute for the body element
   useEffect(() => {
@@ -151,17 +150,22 @@ export default function App() {
       return null;
     });
 
+  if (isLoading) {
+    return <Box sx={{ display: "flex", background: dark.body, alignItems: "center", justifyContent: "center", position: "fixed", zIndex: 30, top: 0, left: 0, width: "100%", height: "100%" }} >
+      <CircularProgress color={"info"} />
+    </Box>
+  }
 
   return direction === "rtl" ? (
     <CacheProvider value={rtlCache}>
       <ThemeProvider theme={themeRTL}>
         <CssBaseline />
-        {layout === "dashboard" && (
+        {layout === "dashboard" && user && !isLoading && (
           <>
             <Sidenav
               color={sidenavColor}
-              brand=""
-              brandName="VISION UI FREE"
+              brand="BETA PRIME SCHOOL"
+              brandName="BETA PRIME SCHOOL"
               routes={routes}
               onMouseEnter={handleOnMouseEnter}
               onMouseLeave={handleOnMouseLeave}
@@ -177,12 +181,12 @@ export default function App() {
   ) : (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      {layout === "dashboard" && (
+      {layout === "dashboard" && user && !isLoading && (
         <>
           <Sidenav
             color={sidenavColor}
-            brand=""
-            brandName="VISION UI FREE"
+            brand="BETA PRIME SCHOOL"
+            brandName="BETA PRIME SCHOOL"
             routes={routes}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
@@ -196,3 +200,4 @@ export default function App() {
     </ThemeProvider>
   );
 }
+

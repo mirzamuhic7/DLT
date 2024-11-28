@@ -11,3 +11,34 @@ export function getEnvSafely(envKey, defaultValue) {
 
     return value;
 }
+
+
+export const getToken = () => {
+    try {
+        // Retrieve the token from localStorage
+        const token = localStorage.getItem("refresh_Token");
+
+        // Optionally, add validation logic if needed
+        if (token) {
+            return token;
+        }
+
+        return null;
+    } catch (error) {
+        console.error("Error retrieving token:", error);
+        return null; // Return null in case of an error
+    }
+};
+
+
+// Utility functions for token management
+export const getAccessToken = () => localStorage.getItem("access_token");
+export const getRefreshToken = () => localStorage.getItem("refresh_token");
+export const setTokens = (accessToken, refreshToken) => {
+    localStorage.setItem("access_token", accessToken);
+    localStorage.setItem("refresh_token", refreshToken);
+};
+export const clearTokens = () => {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+};

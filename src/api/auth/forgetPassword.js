@@ -20,7 +20,6 @@ export function useForgetPassword() {
         },
         onError: (err, credentials, context) => {
             // Trigger error Snackbar
-            console.log(err.response?.data);
             showSnackBar(dispatch, err.response?.data?.message || "An error occurred!", "error");
         },
     });

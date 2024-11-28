@@ -1,5 +1,8 @@
-import React, { createContext, useContext, useState } from "react";
+import { useCheckToken } from "api/auth/checkToken";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { getAccessToken } from "utils";
+
 
 // Create Auth Context
 const AuthContext = createContext(undefined);
@@ -9,11 +12,11 @@ export const AuthProvider = ({ children }) => {
   // Initialize state with user data from localStorage (if it exists)
 
   const history = useHistory();
+  const token = getAccessToken()
+  const { data, isLoading } = useCheckToken(token)
 
-  const [user, setUser] = useState(() => {
-    const savedUser = localStorage.getItem("user");
-    return savedUser ? JSON.parse(savedUser) : null;
-  });
+
+  const [user, setUser] = useState(null);
 
   const login = (userData) => {
     setUser(userData);
@@ -26,8 +29,15 @@ export const AuthProvider = ({ children }) => {
   };
 
 
+  useEffect(() => {
+    if (data) {
+      setUser(data.user);
+    }
+  }, [data])
+
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, isLoading }}>
       {children}
     </AuthContext.Provider>
   );
