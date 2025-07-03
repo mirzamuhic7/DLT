@@ -1,0 +1,9 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-xt-bg-color: white;
+  --font-xt-color: #1a202c;
+}
+body { @apply text-gray-800; }
